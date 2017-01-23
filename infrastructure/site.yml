@@ -8,3 +8,4 @@
   roles:
     - roles/aws.ec2-security-groups                         # create security groups
     - roles/aws.ec2-autoscaling-group                       # create the auto scaling group
+    - roles/aws.ecs-cluster                                 # create ecs cluster
