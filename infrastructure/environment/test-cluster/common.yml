@@ -47,3 +47,6 @@ asg_desired_capacity: 0
 asg_subnets: "{{ asg_subnets_env }}"
 asg_vpc_id: "{{ vpc_id }}"
 asg_additional_security_groups: "{{ asg_additional_security_groups_env | default([]) }}"
+
+
+ecs_cluster_name: "{{ cluster_name }}"

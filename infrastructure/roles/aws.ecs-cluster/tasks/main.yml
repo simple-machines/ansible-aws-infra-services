@@ -1,0 +1,8 @@
+---
+# tasks file for aws.ecs-cluster
+
+- name: Create ECS cluster
+  ecs_cluster:
+    name: "{{ ecs_cluster_name }}"
+    state: present
+    region: "{{ aws_region }}"
