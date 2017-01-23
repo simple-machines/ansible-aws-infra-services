@@ -1,0 +1,25 @@
+---
+- name: Create Security group
+  ec2_group:
+    name: "{{ sg_cluster_name }}.{{ item.sg_name }}"
+    description: "{{ item.sg_description }}"
+    state: "{{ item.sg_state | default('present') }}"
+    region: "{{ item.sg_region | default(aws_region) }}"
+    profile: "{{ item.sg_profile | default(aws_profile) }}"
+    rules: "{{ item.sg_rules | default(none) }}"
+    purge_rules: "{{ item.sg_purge_rules | default(true) }}"
+    purge_rules_egress: "{{ item.sg_purge_rules_egress | default(true) }}"
+    vpc_id: "{{ item.sg_vpc_id }}"
+  register: sg_info
+  with_items: "{{ sg_list }}"
+
+- name: Tag security groups
+  ec2_tag:
+    resource: "{{ item.group_id }}"
+    region: "{{ item.invocation.module_args.region | default(aws_region) }}"
+    profile: "{{ item.invocation.module_args.profile | default(aws_profile) }}"
+    state: present
+    tags:
+      Name: "{{ item.invocation.module_args.name }}"
+      ClusterName: "{{ sg_cluster_name }}"
+  with_items: "{{ sg_info.results }}"

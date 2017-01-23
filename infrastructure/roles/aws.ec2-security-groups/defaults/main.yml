@@ -1,0 +1,3 @@
+---
+# defaults file for roles/ansible-infra.aws-sg
+sg_list: []

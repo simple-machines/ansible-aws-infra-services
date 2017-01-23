@@ -1,0 +1,49 @@
+---
+
+aws_region: "ap-southeast-2"
+aws_profile: "{{ aws_profile_env }}"
+cluster_name: "test-cluster"
+vpc_id: "{{ vpc_id_env }}"
+
+
+sg_cluster_name: "{{ cluster_name }}"
+sg_list:
+  - sg_name: "TEST - SSH"
+    sg_description: "TEST - SSH"
+    sg_vpc_id: "{{ vpc_id }}"
+    sg_region: "{{ aws_region }}"
+    sg_profile: "{{ aws_profile }}"
+    sg_state: present
+    sg_rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "12.34.56.78/32"
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "10.1.0.0/16"
+  - sg_name: "TEST - 80"
+    sg_description: "TEST - 80"
+    sg_vpc_id: "{{ vpc_id }}"
+    sg_region: "{{ aws_region }}"
+    sg_profile: "{{ aws_profile }}"
+    sg_state: present
+    sg_rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: "10.100.0.0/16"
+
+
+asg_ecs_cluster_name: "{{ cluster_name }}"
+asg_launch_config_key_name: "{{ asg_launch_config_key_name_env }}"
+asg_launch_config_instance_size: "t2.large"
+asg_launch_config_instance_profile_name: "{{ asg_launch_config_instance_profile_name_env }}"
+asg_launch_config_assign_public_ip: false
+asg_min_size: 0
+asg_max_size: 1
+asg_desired_capacity: 0
+asg_subnets: "{{ asg_subnets_env }}"
+asg_vpc_id: "{{ vpc_id }}"
+asg_additional_security_groups: "{{ asg_additional_security_groups_env | default([]) }}"

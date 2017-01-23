@@ -1,0 +1,44 @@
+---
+# vars file for ansible-infra.aws-asg
+
+# Launch config related
+# http://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_container_instance.html
+launch_config_amis_per_region:
+  ap-southeast-2:   "ami-5781be34"
+  ap-southeast-1:   "ami-a900a3ca"
+  ap-northeast-1:   "ami-9cd57ffd"
+  eu-central-1:     "ami-54f5303b"
+  us-east-1:        "ami-eca289fb"
+  us-east-2:        "ami-446f3521"
+  us-west-1:        "ami-9fadf8ff"
+  us-west-2:        "ami-7abc111a"
+  eu-west-1:        "ami-a1491ad2"
+
+# This maps the available resources per instance type. used to auto assign resources to ecs tasks
+ecs_resources_per_instance_type:
+  t2.micro:
+    cpu: 1024
+    memory: 995
+  t2.small:
+    cpu: 1024
+    memory: 2003
+  t2.medium:
+    cpu: 2048
+    memory: 3954
+  t2.large:
+    cpu: 2048
+    memory: 8000
+  t2.xlarge:
+    cpu: 4096
+    memory: 16000
+  t2.2xlarge:
+    cpu: 8192
+    memory: 32000
+
+resources_for_instance_type: "{{ ecs_resources_per_instance_type[asg_launch_config_instance_size] }}"
+
+asg_tag_name:
+  Name: "{{ asg_ecs_cluster_name }}"
+  propagate_at_launch: true
+  
+asg_tags: "{{ asg_additional_tags + [ asg_tag_name ] }}"

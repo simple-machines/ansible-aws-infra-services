@@ -1,0 +1,25 @@
+---
+# defaults file for ansible-infra.aws-asg
+# setup variables
+asg_additional_python_pip_packages: ""
+asg_additional_user_data_bootcmd: ""
+asg_additional_write_files: ""
+asg_additional_ecs_config: ""
+asg_additional_user_data_runcmd: ""
+asg_additional_cloud_config_commands: ""
+asg_additional_yum_packages: ""
+
+asg_launch_config_assign_public_ip: false
+asg_min_size: 0
+asg_max_size: 1
+asg_desired_capacity: 1
+asg_subnets: []
+asg_launch_config_instance_size: "t2.small"
+
+asg_additional_security_groups: [] # adding additional non tagged security groups
+asg_additional_tags: []
+
+# values to override for sure:
+asg_ecs_cluster_name: ""
+asg_launch_config_key_name: ""
+asg_launch_config_instance_profile_name: ""
