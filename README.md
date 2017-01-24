@@ -66,7 +66,6 @@ Some variables can be top level such as:
 ```
 aws_region: "ap-southeast-2"
 aws_profile: "{{ aws_profile_env }}"
-cluster_name: "test-cluster"
 vpc_id: "{{ vpc_id_env }}"
 ```
 
