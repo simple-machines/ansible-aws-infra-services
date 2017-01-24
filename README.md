@@ -39,7 +39,7 @@ Update of the template will be done running `infrastructure/update.sh`
 Running of the template is currently done using the following:
 
 ```
-ansible-playbook infrastructure/site.yml -e "env=dev cluster=test-cluster"
+ansible-playbook infrastructure/site.yml -e "env=dev cluster_name=test-cluster"
 ```
 
 ## Variables
