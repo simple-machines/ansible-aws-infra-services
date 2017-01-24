@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   connection: localhost
-  gather_facts: yes
+  gather_facts: no
   vars_files:
     - environment/{{ cluster }}/common.yml                  # include common variables
     - environment/{{ cluster }}/{{ env }}.yml               # include environment specific variables

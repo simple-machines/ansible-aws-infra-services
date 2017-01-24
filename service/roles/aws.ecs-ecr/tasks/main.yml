@@ -1,0 +1,17 @@
+---
+# tasks file for aws.ecs-ecr
+
+- name: Retrieve current AWS account_id
+  command: aws sts get-caller-identity --output text --query 'Account' --profile "{{ aws_profile }}"
+  register: aws_account_id
+  changed_when: false
+  failed_when: aws_account_id['stdout'] == 'None'
+
+- name: "Create ECR repository and apply policy if needed"
+  ecs_ecr:
+    region: "{{ aws_region }}"
+    profile: "{{ aws_profile }}"
+    name: "{{ ecr_repository_name }}"
+    force_set_policy: "{{ ecr_force_set_policy }}"
+    policy: "{{ lookup('template', 'policy.json.j2') }}"
+    state: "{{ ecr_state }}"

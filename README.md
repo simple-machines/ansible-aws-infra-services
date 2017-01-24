@@ -138,3 +138,50 @@ asg_ecs_cluster_name: ""
 asg_launch_config_key_name: ""
 asg_launch_config_instance_profile_name: ""
 ```
+
+
+# Service
+
+## Description
+
+Services are managed in a decentralized way. Each service should live with its companion project. The roles folder are expected to change over time and therefore shouldn't be modified by the user. The same goes for `service/site.yml`
+
+## Directory Structure
+
+```
+service
+> service-1-name
+  > common.yml
+  > dev.yml
+  > prod.yml
+> service-2-name (most likely not needed)
+> roles
+  > aws.ec2-loadbalancer
+  > aws.ecs-ecr
+  > aws.ecs-service
+site.yml
+```
+
+## Update
+
+Update of the template will be done running `service/update.sh`
+
+## Running
+
+Running of the template is currently done using the following:
+
+```
+ansible-playbook service/site.yml -e "env=dev ecs_service_name=service-1-name"
+```
+
+## Variables
+
+Variables can be common to all environments or specific to dev/test/prod.
+
+### Environment specific
+
+TODO
+
+### Common
+
+TODO

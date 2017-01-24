@@ -1,7 +1,7 @@
 ---
 - name: Create Security group
   ec2_group:
-    name: "{{ sg_cluster_name }}.{{ item.sg_name }}"
+    name: "{{ item.sg_name }}"
     description: "{{ item.sg_description }}"
     state: "{{ item.sg_state | default('present') }}"
     region: "{{ item.sg_region | default(aws_region) }}"

@@ -1,0 +1,32 @@
+---
+# tasks file for aws.ec2-service
+
+
+## Create task definition
+
+- name: Create task definition
+  ecs_taskdefinition:
+    containers: "{{ ecs_taskdefinition['containers'] }}"
+    state: "{{ ecs_taskdefinition['state'] }}"
+    family: "{{ ecs_taskdefinition['family'] }}"
+    profile: "{{ ecs_taskdefinition['profile'] }}"
+    region: "{{ ecs_taskdefinition['region'] }}"
+    revision: "{{ ecs_taskdefinition['revision'] | default(omit) }}"
+    task_role_arn: "{{ ecs_taskdefinition['task_role_arn'] | default(omit) }}"
+    network_mode: "{{ ecs_taskdefinition['network_mode'] | default('bridge') }}"
+    volumes: "{{ ecs_taskdefinition['volumes'] | default([]) }}"
+  register: task_output
+
+- name: Register ECS service
+  ecs_service:
+    state: present
+    name: "{{ ecs_service_name }}"
+    cluster: "{{ ecs_cluster_name }}"
+    region: "{{ aws_region }}"
+    profile: "{{ aws_profile }}"
+    task_definition: "{{ task_output['taskdefinition']['taskDefinitionArn'] }}"
+    load_balancers: []
+    desired_count: "{{ ecs_service_desired_count }}"
+    # placement_strategy: <pending merge of ansible PR>
+    # placement_constraint: <pending merge of ansible PR>
+    # deploymeny_configuration: <pending merge of ansible PR>

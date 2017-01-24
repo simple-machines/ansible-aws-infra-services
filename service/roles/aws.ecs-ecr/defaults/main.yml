@@ -1,0 +1,6 @@
+---
+# defaults file for aws.ecs-ecr
+ecr_force_set_policy: no
+ecr_policy: omit
+ecr_state: present
+ecr_additional_aws_account_list: []

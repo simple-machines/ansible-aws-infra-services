@@ -8,8 +8,8 @@ vpc_id: "{{ vpc_id_env }}"
 
 sg_cluster_name: "{{ cluster_name }}"
 sg_list:
-  - sg_name: "TEST - SSH"
-    sg_description: "TEST - SSH"
+  - sg_name: "test-cluster-example-ssh"
+    sg_description: "test-cluster-example-ssh"
     sg_vpc_id: "{{ vpc_id }}"
     sg_region: "{{ aws_region }}"
     sg_profile: "{{ aws_profile }}"
@@ -18,21 +18,17 @@ sg_list:
       - proto: tcp
         from_port: 22
         to_port: 22
-        cidr_ip: "12.34.56.78/32"
-      - proto: tcp
-        from_port: 22
-        to_port: 22
-        cidr_ip: "10.1.0.0/16"
-  - sg_name: "TEST - 80"
-    sg_description: "TEST - 80"
+        cidr_ip: "0.0.0.0/0"
+  - sg_name: "test-cluster-example-postgres"
+    sg_description: "test-cluster-example-postgres"
     sg_vpc_id: "{{ vpc_id }}"
     sg_region: "{{ aws_region }}"
     sg_profile: "{{ aws_profile }}"
     sg_state: present
     sg_rules:
       - proto: tcp
-        from_port: 80
-        to_port: 80
+        from_port: 5432
+        to_port: 5432
         cidr_ip: "10.100.0.0/16"
 
 

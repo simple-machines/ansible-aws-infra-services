@@ -1,0 +1,3 @@
+---
+# defaults file for aws.ec2-service
+ecs_container_essential: true

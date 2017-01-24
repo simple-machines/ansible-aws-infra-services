@@ -6,3 +6,4 @@
     name: "{{ ecs_cluster_name }}"
     state: present
     region: "{{ aws_region }}"
+    profile: "{{ aws_profile }}"

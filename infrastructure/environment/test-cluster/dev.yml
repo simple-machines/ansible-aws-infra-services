@@ -1,0 +1,6 @@
+aws_profile_env: "<your dev profile>"
+vpc_id_env: "<your dev vpc ip>"
+asg_launch_config_key_name_env: "<your dev key name>"
+asg_launch_config_instance_profile_name_env: "<your dev instance profile>"
+asg_subnets_env: ['<your list of subnets>']
+asg_additional_security_groups_env: ['<list of additional security groups if needed>']

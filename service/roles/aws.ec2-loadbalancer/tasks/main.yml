@@ -1,0 +1,7 @@
+---
+# tasks file for aws.ec2-loadbalancer
+
+- name: TO BE IMPLEMENTED
+  fail:
+    msg: "ELB ROLE IS NOT YET IMPLEMENTED"
+    when: true
