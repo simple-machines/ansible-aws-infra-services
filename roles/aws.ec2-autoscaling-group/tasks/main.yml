@@ -43,13 +43,6 @@
       {{ asg_additional_cloud_config_commands }}
 
 
-- name: Determine ECS ami
-  set_fact:
-    _launch_config_ami: "{{ launch_config_ami | default(launch_config_amis_per_region[aws_region])}}"
-
-- debug: msg="Using ECS AMI {{ _launch_config_ami }}"
-
-
 - name: "Find security groups to attach to the ASG"
   ec2_group_facts:
     filters:
@@ -61,7 +54,7 @@
   set_fact:
     _launch_config_params:
       name: "{{ asg_ecs_cluster_name }}" # this is used for the hash, the actual LC will have a differnet name ( see _launch_config_name )
-      image_id: "{{ _launch_config_ami }}"
+      image_id: "{{ asg_launch_config_ami }}"
       key_name: "{{ asg_launch_config_key_name }}"
       region: "{{ aws_region }}"
       security_groups: "{{ asg_additional_security_groups + _security_groups['security_groups'] | map(attribute='group_id') | list }}"

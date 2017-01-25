@@ -23,3 +23,6 @@ asg_additional_tags: []
 asg_ecs_cluster_name: ""
 asg_launch_config_key_name: ""
 asg_launch_config_instance_profile_name: ""
+
+# asg_launch_config_amis_per_region is defined in vars.yml and can't be overriden. 
+asg_launch_config_ami: "{{ asg_launch_config_amis_per_region[aws_region] }}"

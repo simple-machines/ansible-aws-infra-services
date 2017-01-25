@@ -6,6 +6,13 @@ This template is divided into two sub-templates.
 
 - services: that's where the services are managed. each service definition should be a companion to the project it is deploying. That means that management of services is *decentralized*
 
+# Getting Started
+
+```
+# the vault password is never committed into the repository
+echo "<your vault password>" >> .vaultpassword
+```
+
 
 # Infrastructure
 
