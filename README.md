@@ -149,16 +149,17 @@ Services are managed in a decentralized way. Each service should live with its c
 
 ```
 service
-> service-1-name
-  > common.yml
-  > dev.yml
-  > prod.yml
-> service-2-name (most likely not needed)
-> roles
-  > aws.ec2-loadbalancer
-  > aws.ecs-ecr
-  > aws.ecs-service
-site.yml
+> cluster-name
+  > service-1-name
+    > common.yml
+    > dev.yml
+    > prod.yml
+  > service-2-name (most likely not needed)
+  > roles
+    > aws.ec2-loadbalancer
+    > aws.ecs-ecr
+    > aws.ecs-service
+  site.yml
 ```
 
 ## Update
@@ -170,8 +171,10 @@ Update of the template will be done running `service/update.sh`
 Running of the template is currently done using the following:
 
 ```
-ansible-playbook service/site.yml -e "env=dev ecs_service_name=service-1-name"
+ansible-playbook service/site.yml -e "env=dev cluster_name=test-cluster service_name=service-1-name"
 ```
+
+Please note that the `cluster_name` and `service_name` are set at runtime and therefore shouldn't be set within your playbooks. This guarantees consistency and enforces strict naming convention over folders.
 
 ## Variables
 
