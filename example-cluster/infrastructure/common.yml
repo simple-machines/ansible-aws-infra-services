@@ -7,8 +7,8 @@ vpc_id: "{{ vpc_id_env }}"
 
 sg_cluster_name: "{{ cluster_name }}"
 sg_list:
-  - sg_name: "test-cluster-example-ssh"
-    sg_description: "test-cluster-example-ssh"
+  - sg_name: "{{ cluster_name }}-ssh"
+    sg_description: "{{ cluster_name }}-ssh"
     sg_vpc_id: "{{ vpc_id }}"
     sg_region: "{{ aws_region }}"
     sg_profile: "{{ aws_profile }}"
@@ -18,8 +18,8 @@ sg_list:
         from_port: 22
         to_port: 22
         cidr_ip: "0.0.0.0/0"
-  - sg_name: "test-cluster-example-postgres"
-    sg_description: "test-cluster-example-postgres"
+  - sg_name: "{{ cluster_name }}-postgres"
+    sg_description: "{{ cluster_name }}-postgres"
     sg_vpc_id: "{{ vpc_id }}"
     sg_region: "{{ aws_region }}"
     sg_profile: "{{ aws_profile }}"
@@ -33,7 +33,7 @@ sg_list:
 
 asg_ecs_cluster_name: "{{ cluster_name }}"
 asg_launch_config_key_name: "{{ asg_launch_config_key_name_env }}"
-asg_launch_config_instance_size: "t2.large"
+asg_launch_config_instance_size: "t2.small"
 asg_launch_config_instance_profile_name: "{{ asg_launch_config_instance_profile_name_env }}"
 asg_launch_config_assign_public_ip: false
 asg_min_size: 0

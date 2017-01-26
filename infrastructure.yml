@@ -3,8 +3,8 @@
   connection: localhost
   gather_facts: no
   vars_files:
-    - infrastructure/{{ cluster_name }}/common.yml                  # include common variables
-    - infrastructure/{{ cluster_name }}/{{ env }}.yml               # include environment specific variables
+    - "{{ cluster_name }}/infrastructure/common.yml"                  # include common variables
+    - "{{ cluster_name }}/infrastructure/{{ env }}.yml"               # include environment specific variables
   roles:
     - roles/aws.ec2-security-groups                         # create security groups
     - roles/aws.ec2-autoscaling-group                       # create the auto scaling group

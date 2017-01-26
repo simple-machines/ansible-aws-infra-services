@@ -23,18 +23,16 @@ Infrastructures are managed in a centralized way. Each cluster should live under
 ## Directory Structure
 
 ```
-infrastructure
-> environment
-  > cluster-1
-  > cluster-2
-    > common.yml
-    > dev.yml
-    > prod.yml
-  ....                <- this is where you add and centralize cluster configs
-> roles
-  > aws.ec2-autoscaling-group
-  > aws.ec2-security-groups
-site.yml
+cluster-name/
+> infrastructure/
+  > common.yml
+  > dev.yml
+  > prod.yml
+> roles/
+  > aws.ec2-autoscaling-group/
+  > aws.ec2-security-groups/
+infrastructure.yml
+run-infrastructure.sh
 ```
 
 ## Update
@@ -155,18 +153,22 @@ Services are managed in a decentralized way. Each service should live with its c
 ## Directory Structure
 
 ```
-service
-> cluster-name
-  > service-1-name
+cluster-name/
+> services/
+  > service-name-1/
     > common.yml
     > dev.yml
     > prod.yml
-  > service-2-name (most likely not needed)
-  > roles
-    > aws.ec2-loadbalancer
-    > aws.ecs-ecr
-    > aws.ecs-service
-  site.yml
+  > service-name-2/
+    > common.yml
+    > dev.yml
+    > prod.yml
+roles/
+> aws.ec2-loadbalancer/
+> aws.ecs-ecr/
+> aws.ecs-service/
+service.yml
+run-service.sh
 ```
 
 ## Update
