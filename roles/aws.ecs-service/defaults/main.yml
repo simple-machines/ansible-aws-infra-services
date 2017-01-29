@@ -1,3 +1,7 @@
 ---
 # defaults file for aws.ec2-service
 ecs_container_essential: true
+ecs_service_desired_count: 0
+ecs_deployment_configuration:
+  minimum_healthy_percent: 100
+  maximum_percent: 200
