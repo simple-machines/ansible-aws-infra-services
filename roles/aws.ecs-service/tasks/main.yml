@@ -1,32 +1,48 @@
 ---
 # tasks file for aws.ec2-service
 
+- name: Apply defaults to containers
+  set_fact:
+    name: "{{ item.name }}" # Default container name to service name if no name set
+    cpu: "{{ item.cpu }}"
+    memory: "{{ item.memory }}"
+    essential: "{{ item.essential | default(ecs_taskdefinition_container_essential)}}"
+    image:  "{{ docker_image_repo | default(default_docker_image_repo) }}/{{ docker_image_name | default(application_name) }}:{{ docker_image_tag | default('latest') }}"
+    environment: "{{ item.environment | default([])}}"
+    portMappings: "{{ item.portMappings | default([])}}"
+    links: "{{ item.links | default([])}}"
+    logConfiguration: "{{ item.logConfiguration | default(omit) }}"
+    mountPoints: "{{ item.mountPoints | default(omit) }}"
 
-## Create task definition
+  register: _build_container_output
+  with_items: "{{ ecs_taskdefinition_containers }}"
+
+
+
 
 - name: Create task definition
   ecs_taskdefinition:
-    containers: "{{ ecs_taskdefinition['containers'] }}"
-    state: "{{ ecs_taskdefinition['state'] }}"
-    family: "{{ ecs_taskdefinition['family'] }}"
-    profile: "{{ ecs_taskdefinition['profile'] }}"
-    region: "{{ ecs_taskdefinition['region'] }}"
-    revision: "{{ ecs_taskdefinition['revision'] | default(omit) }}"
-    task_role_arn: "{{ ecs_taskdefinition['task_role_arn'] | default(omit) }}"
-    network_mode: "{{ ecs_taskdefinition['network_mode'] | default('bridge') }}"
-    volumes: "{{ ecs_taskdefinition['volumes'] | default([]) }}"
-  register: task_output
+    profile: "{{ aws_profile }}"
+    region: "{{ aws_region }}"
+    containers: "{{ ecs_taskdefinition_containers }}"
+    state: "{{ ecs_taskdefinition_state }}"
+    family: "{{ ecs_taskdefinition_family }}"
+    revision: "{{ ecs_taskdefinition_revision }}"
+    task_role_arn: "{{ ecs_taskdefinition_task_role_arn }}"
+    network_mode: "{{ ecs_taskdefinition_network_mode }}"
+    volumes: "{{ ecs_taskdefinition_volumes }}"
+  register: _task_definition
 
 - name: Register ECS service
   ecs_service:
+    profile: "{{ aws_profile }}"
+    region: "{{ aws_region }}"
     state: present
     name: "{{ ecs_service_name }}"
     cluster: "{{ ecs_cluster_name }}"
-    region: "{{ aws_region }}"
-    profile: "{{ aws_profile }}"
-    task_definition: "{{ task_output['taskdefinition']['taskDefinitionArn'] }}"
-    load_balancers: []
+    task_definition: "{{ _task_definition['taskdefinition']['taskDefinitionArn'] }}"
+    load_balancers: "{{ ecs_load_balancers }}"
     desired_count: "{{ ecs_service_desired_count }}"
-    deploymeny_configuration: "{{ ecs_deployment_configuration }}"
+    deployment_configuration: "{{ ecs_deployment_configuration }}"
     # placement_strategy: <pending merge of ansible PR>
     # placement_constraint: <pending merge of ansible PR>

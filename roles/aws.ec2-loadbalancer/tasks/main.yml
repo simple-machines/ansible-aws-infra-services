@@ -5,3 +5,84 @@
   fail:
     msg: "ELB ROLE IS NOT YET IMPLEMENTED"
     when: true
+#
+# - name: Create ELB inbound traffic rules
+#   set_fact:
+#     proto: tcp
+#     from_port: "{{ 443 if elb_secure_https else 80 }}"
+#     to_port: "{{ 443 if elb_secure_https else 80 }}"
+#     cidr_ip: "{{ item }}"
+#   with_items: "{{ elb_inbound_ips }}"
+#   register: _elb_security_group_rules_output
+#
+# - name: Flatten ELB inbound traffic rules
+#   set_fact:
+#     _elb_security_group_rules: "{{ _elb_security_group_rules_output.results | list | map(attribute='ansible_facts') | list }}"
+#
+# - debug: msg="Using elb security group rules {{ _elb_security_group_rules }}"
+#
+# - name: ELB security inbound traffic
+#   ec2_group:
+#     name: "{{ application_name }}-elb"
+#     description:  Allows traffic into the load balancer
+#     vpc_id: "{{ vpc_id }}"
+#     rules: "{{ _elb_security_group_rules }}"
+  register: elb_security_group
+
+
+- name: Create health check settings
+  set_fact:
+    _health_check:
+      ping_protocol:        "{{ elb_health_check_ping_protocol }}" # options are http, https, ssl, tcp
+      ping_port:            "{{ elb_health_check_ping_port }}"
+      ping_path:            "{{ elb_health_check_ping_path }}" # not required for tcp or ssl
+      response_timeout:     "{{ elb_health_check_response_timeout }}" # seconds
+      interval:             "{{ elb_health_check_interval }}" # seconds
+      unhealthy_threshold:  "{{ elb_health_check_unhealthy_threshold }}"
+      healthy_threshold:    "{{ elb_health_check_healthy_threshold }}"
+    when: elb_health_check
+
+
+- name: Create access logs settings
+  set_fact:
+    _access_logs:
+      interval:    "{{ elb_access_logs_interval }}"
+      s3_location: "{{ elb_access_logs_s3_location }}"
+      s3_prefix:   "{{ elb_access_logs_s3_prefix }}"
+    when: elb_access_logs
+
+
+- name: Create access logs settings
+  set_fact:
+    _stickiness:
+      type:         "{{ elb_stickiness_type }}"
+      enabled:      "{{ elb_stickiness_enabled }}"
+      expiration:   "{{ elb_stickiness_expiration }}"
+      cookie:       "{{ elb_stickiness_cookie }}"
+    when: elb_stickiness
+
+- name: Create ELB
+  ec2_elb_lb:
+    name: "{{ elb_name }}"
+    profile: "{{ aws_profile }}"
+    region: "{{ aws_region }}"
+    state: present
+    scheme: "{{ elb_scheme }}"
+    subnets: "{{ elb_subnets | join(',') }}"
+    purge_subnets: "{{ elb_purge_subnets }}"
+    cross_az_load_balancing: "{{ elb_cross_az_load_balancing }}"
+    # TODO: Include security groups module ???? to create the security groups
+    # TODO: Or fork the ec2_group module into this one
+    # security_group_names: "['{{ application_name }}-elb']"
+    # security_group_ids: 'sg-123456, sg-67890'
+
+    connection_draining_timeout: "{{ elb_connection_draining_timeout }}"
+    idle_timeout: "{ elb_idle_timeout }}"
+    listeners: "{{ elb_listeners }}"
+    purge_listeners: "{{ elb_purge_listeners }}" # Purge existing listeners on ELB that are not found in listeners
+    health_check: "{{ _health_check | default(omit) }}"
+    access_logs: "{{ _access_logs | default(omit) }}"
+    stickiness: "{{ _stickiness | default(omit) }}"
+    tags:
+      Name: "{{ elb_name }}"
+  register: elb_output_load_balancer

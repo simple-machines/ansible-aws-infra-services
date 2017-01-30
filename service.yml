@@ -10,4 +10,5 @@
       when: elb_create | default(false)
     - role: roles/aws.ecs-ecr                           # create an ECR repository if needed
       when: ecr_create | default(false)
-    - role: roles/aws.ecs-service                       # create the ecs service
+    - role: roles/aws.ecs-service                         # create the ecs service
+      ecs_load_balancers: "{{ [elb_output_load_balancer] }}" # this variable is extracted from the load balancer modules

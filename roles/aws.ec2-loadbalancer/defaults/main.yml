@@ -1,2 +1,50 @@
 ---
 # defaults file for aws.ec2-loadbalancer
+elb_subnets: []
+
+
+elb_connection_draining_timeout: 60
+elb_idle_timeout: ???
+elb_cross_az_load_balancing: true
+elb_purge_listeners: true
+elb_purge_subnets: true
+elb_scheme: internal # can be changed to internet-facing for public access
+
+
+# HEALTH CHECK RELATED
+elb_health_check: false # set to true to enable health checks
+elb_health_check_ping_protocol: http # options are http, https, ssl, tcp
+elb_health_check_ping_port: 80 # options are http, https, ssl, tcp
+elb_health_check_ping_path: "/" # not required for tcp or ssl
+elb_health_check_response_timeout: 5
+elb_health_check_interval: 15
+elb_health_check_unhealthy_threshold: 6
+elb_health_check_healthy_threshold: 2
+
+# ACCESS LOGS RELATED
+elb_access_logs: false # set to true to enable health checks
+elb_access_logs_interval: 60 # minutes (defaults to 60)
+elb_access_logs_s3_location: "my-bucket" # This value is required if elb_access_logs is set
+elb_access_logs_s3_prefix: "logs"
+
+# stickiness
+elb_stickiness: false
+elb_stickiness_type: loadbalancer # could be application
+elb_stickiness_enabled: yes
+elb_stickiness_expiration: 300
+elb_stickiness_cookie: omit # could be SESSIONID
+
+# LISTENERS
+elb_listeners: []
+# Example:
+# listeners:
+#       - protocol: http # options are http, https, ssl, tcp
+#         load_balancer_port: 80
+#         instance_port: 80
+#         proxy_protocol: True
+#       - protocol: https
+#         load_balancer_port: 443
+#         instance_protocol: http # optional, defaults to value of protocol setting
+#         instance_port: 80
+#         # ssl certificate required for https or ssl
+#         ssl_certificate_id: "arn:aws:iam::123456789012:server-certificate/company/servercerts/ProdServerCert"

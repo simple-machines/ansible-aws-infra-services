@@ -5,3 +5,14 @@ ecs_service_desired_count: 0
 ecs_deployment_configuration:
   minimum_healthy_percent: 100
   maximum_percent: 200
+
+ecs_taskdefinition_state: present
+ecs_taskdefinition_revision: omit
+ecs_taskdefinition_task_role_arn: omit
+ecs_taskdefinition_network_mode: bridge
+ecs_taskdefinition_volumes: []
+
+ecs_load_balancers: []
+
+# task definition defaults
+ecs_taskdefinition_container_essential: true
