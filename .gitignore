@@ -1,4 +1,4 @@
 .idea
 .vaultpassword
 *.retry
-*.testing
+ansible-aws-infra-services-*
