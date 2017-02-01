@@ -4,6 +4,7 @@
   gather_facts: no
   vars_files:
     - "{{ cluster_name }}/infrastructure/common.yml"                  # include common variables
+    - ["{{ cluster_name }}/infrastructure/{{ env }}.vault.yml", "{{ cluster_name }}/infrastructure/{{ env }}.yml"]  # load vault if exists
     - "{{ cluster_name }}/infrastructure/{{ env }}.yml"               # include environment specific variables
   roles:
     - roles/aws.ec2-security-groups                         # create security groups

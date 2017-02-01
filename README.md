@@ -13,6 +13,22 @@ This template is divided into two sub-templates.
 echo "<your vault password>" >> .vaultpassword
 ```
 
+## Adding password file and edit the secret variables
+### Infrastructure
+To change the vault for Infrastructure it follows  
+./editvault infrastructure [cluster name] [environment]
+```
+echo "12345">.vaultpassword  
+./editvault.sh infrastructure example-cluster dev
+```
+
+### Services
+To change the vault for Services it follows  
+./editvault services [cluster name] [service name] [environment]
+```
+echo "12345">.vaultpassword  
+./editvault.sh services example-cluster postgres-example dev
+```
 
 # Infrastructure
 
