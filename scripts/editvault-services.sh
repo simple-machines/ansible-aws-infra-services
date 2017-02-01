@@ -6,11 +6,11 @@ then
     exit 1
 fi
 OPERATION="edit"
-if ! [ -a /project/$CLUSTER_NAME/services/postgres-example/$TARGET_ENV.vault.yml ]
+if ! [ -a /project/$CLUSTER_NAME/services/$SERVICE_NAME/$TARGET_ENV.vault.yml ]
 then
     echo "Creating new vault for $TARGET_ENV"
     OPERATION="create"
 fi
 
 command -v ansible-vault >/dev/null 2>&1 || { echo "Please install ansible-vault before running this script." >&2; exit 1; }
-ansible-vault -vvv --vault-password-file=/project/.vaultpassword $OPERATION /project/$CLUSTER_NAME/services/postgres-example/$TARGET_ENV.vault.yml
+ansible-vault -vvv --vault-password-file=/project/.vaultpassword $OPERATION /project/$CLUSTER_NAME/services/$SERVICE_NAME/$TARGET_ENV.vault.yml
