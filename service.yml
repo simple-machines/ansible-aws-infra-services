@@ -4,6 +4,7 @@
   gather_facts: no
   vars_files:
     - "{{ cluster_name }}/services/{{ service_name }}/common.yml"                 # include common variables
+    - ["{{ cluster_name }}/services/{{ service_name }}/{{ env }}.vault.yml", "{{ cluster_name }}/services/{{ service_name }}/{{ env }}.yml"]  # load vault if exists
     - "{{ cluster_name }}/services/{{ service_name }}/{{ env }}.yml"              # include environment specific variables
   roles:
     - role: roles/aws.ec2-loadbalancer                  # create the load balancer for the service if needed
