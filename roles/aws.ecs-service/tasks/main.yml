@@ -26,6 +26,6 @@
     task_definition: "{{ _task_definition['taskdefinition']['taskDefinitionArn'] }}"
     load_balancers: "{{ ecs_load_balancers }}"
     desired_count: "{{ ecs_service_desired_count }}"
-    deployment_configuration: "{{ ecs_deployment_configuration }}"
+    # deployment_configuration: "{{ ecs_deployment_configuration }}"
     # placement_strategy: <pending merge of ansible PR>
     # placement_constraint: <pending merge of ansible PR>
