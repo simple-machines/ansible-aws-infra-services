@@ -7,8 +7,6 @@ ecs_deployment_configuration:
   maximum_percent: 200
 
 ecs_taskdefinition_state: present
-ecs_taskdefinition_revision: omit
-ecs_taskdefinition_task_role_arn: omit
 ecs_taskdefinition_network_mode: bridge
 ecs_taskdefinition_volumes: []
 

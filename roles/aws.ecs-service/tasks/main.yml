@@ -10,8 +10,8 @@
     containers: "{{ ecs_taskdefinition_containers }}"
     state: "{{ ecs_taskdefinition_state }}"
     family: "{{ ecs_taskdefinition_family }}"
-    revision: "{{ ecs_taskdefinition_revision }}"
-    task_role_arn: "{{ ecs_taskdefinition_task_role_arn }}"
+    revision: "{{ ecs_taskdefinition_revision | default(omit) }}"
+    task_role_arn: "{{ ecs_taskdefinition_task_role_arn | default(omit) }}"
     network_mode: "{{ ecs_taskdefinition_network_mode }}"
     volumes: "{{ ecs_taskdefinition_volumes }}"
   register: _task_definition
