@@ -13,6 +13,7 @@ if [ ! -z "$1" ]
 fi
 
 rsync \
+      --exclude="example-cluster" \
       --include="roles/***" \
       --include="scripts/***" \
       -rav $UPDATE_FROM/* .

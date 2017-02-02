@@ -13,21 +13,20 @@ ecr_additional_aws_account_list: []
 ecs_service_desired_count: 0
 ecs_cluster_name: "{{ cluster_name }}"
 ecs_service_name: "{{ service_name }}"
-ecs_taskdefinition:
-  containers:
-    - name: "{{ ecs_service_name }}"
-      cpu: 50
-      essential: true
-      image:  postgres:latest
-      memory: 500
-      environment:
-        - name: "POSTGRES_PASSWORD"
-          value: "mysecretpassword"
-      portMappings:
-        - hostPort: 5432
-          containerPort: 5432
-          protocol: tcp
-  state: present
-  family: "{{ ecs_service_name }}"
-  profile: "{{ aws_profile }}"
-  region: "{{ aws_region }}"
+ecs_taskdefinition_containers:
+  - name: "{{ ecs_service_name }}"
+    cpu: 50
+    essential: true
+    image:  postgres:latest
+    memory: 500
+    environment:
+      - name: "POSTGRES_PASSWORD"
+        value: "mysecretpassword"
+    portMappings:
+      - hostPort: 5432
+        containerPort: 5432
+        protocol: tcp
+ecs_taskdefinition_state: present
+ecs_taskdefinition_family: "{{ ecs_service_name }}"
+ecs_taskdefinition_profile: "{{ aws_profile }}"
+ecs_taskdefinition_region: "{{ aws_region }}"

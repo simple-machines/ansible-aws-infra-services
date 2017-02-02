@@ -16,7 +16,7 @@ echo "<your vault password>" >> .vaultpassword
 ## Adding password file and edit the secret variables
 ### Infrastructure
 To change the vault for Infrastructure it follows  
-./editvault infrastructure [cluster name] [environment]
+./editvault.sh infrastructure [cluster name] [environment]
 ```
 echo "12345">.vaultpassword  
 ./editvault.sh infrastructure example-cluster dev
@@ -24,7 +24,7 @@ echo "12345">.vaultpassword
 
 ### Services
 To change the vault for Services it follows  
-./editvault services [cluster name] [service name] [environment]
+./editvault.sh services [cluster name] [service name] [environment]
 ```
 echo "12345">.vaultpassword  
 ./editvault.sh services example-cluster postgres-example dev
@@ -59,8 +59,10 @@ Update of the template will be done running `infrastructure/update.sh`
 
 Running of the template is currently done using the following:
 
+./run-infrastructure.sh [cluster name] [environment]
+
 ```
-ansible-playbook infrastructure/site.yml -e "env=dev cluster_name=test-cluster"
+./run-infrastructure.sh example-cluster dev
 ```
 
 ## Variables
@@ -195,8 +197,10 @@ Update of the template will be done running `service/update.sh`
 
 Running of the template is currently done using the following:
 
+run-services.sh [cluster name] [service name] [environment]
+
 ```
-ansible-playbook service/site.yml -e "env=dev cluster_name=test-cluster service_name=service-1-name"
+./run-services.sh example-cluster postgres-example dev
 ```
 
 Please note that the `cluster_name` and `service_name` are set at runtime and therefore shouldn't be set within your playbooks. This guarantees consistency and enforces strict naming convention over folders.
