@@ -8,7 +8,7 @@ if [ ! -z "$1" ]
     echo "Updating from github"
     VERSION=master
     rm -Rf ansible-aws-infra-services-$VERSION
-    curl -L -fail --silent --show-error https://github.com/simple-machines/ansible-aws-infra-services/archive/$VERSION.tar.gz | tar xz
+    curl -L --silent --show-error https://github.com/simple-machines/ansible-aws-infra-services/archive/$VERSION.tar.gz | tar xz
     UPDATE_FROM="ansible-aws-infra-services-$VERSION"
 fi
 
