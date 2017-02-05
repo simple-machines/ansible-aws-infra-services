@@ -12,8 +12,6 @@
     vpc_id: "{{ sg_vpc_id }}"
   register: sg_info
 
-- debug: var=sg_info
-
 - name: Tag security groups
   ec2_tag:
     resource: "{{ sg_info.group_id }}"
