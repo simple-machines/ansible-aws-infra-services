@@ -6,29 +6,18 @@ vpc_id: "{{ vpc_id_env }}"
 
 
 sg_cluster_name: "{{ cluster_name }}"
-sg_list:
-  - sg_name: "{{ cluster_name }}-ssh"
-    sg_description: "{{ cluster_name }}-ssh"
-    sg_vpc_id: "{{ vpc_id }}"
-    sg_region: "{{ aws_region }}"
-    sg_profile: "{{ aws_profile }}"
-    sg_state: present
-    sg_rules:
-      - proto: tcp
-        from_port: 22
-        to_port: 22
-        cidr_ip: "0.0.0.0/0"
-  - sg_name: "{{ cluster_name }}-postgres"
-    sg_description: "{{ cluster_name }}-postgres"
-    sg_vpc_id: "{{ vpc_id }}"
-    sg_region: "{{ aws_region }}"
-    sg_profile: "{{ aws_profile }}"
-    sg_state: present
-    sg_rules:
-      - proto: tcp
-        from_port: 5432
-        to_port: 5432
-        cidr_ip: "10.100.0.0/16"
+sg_description: "{{ cluster_name }} security rules"
+sg_vpc_id: "{{ vpc_id }}"
+sg_state: present
+sg_rules:
+  - proto: tcp
+    from_port: 22
+    to_port: 22
+    cidr_ip: "0.0.0.0/0"
+  - proto: tcp
+    from_port: 5432
+    to_port: 5432
+    cidr_ip: "10.100.0.0/16"
 
 
 asg_ecs_cluster_name: "{{ cluster_name }}"

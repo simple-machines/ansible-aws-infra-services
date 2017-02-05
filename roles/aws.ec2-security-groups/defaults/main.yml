@@ -1,3 +1,7 @@
 ---
 # defaults file for roles/ansible-infra.aws-sg
 sg_list: []
+sg_state: present
+sg_rules: []
+sg_purge_rules: true
+sg_purge_rules_egress: true
