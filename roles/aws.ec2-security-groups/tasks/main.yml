@@ -21,4 +21,4 @@
     tags:
       Name: "{{ item.invocation.module_args.name }}-cluster"
       ClusterName: "{{ sg_cluster_name }}"
-  with_items: "{{ sg_info.results }}"
+  with_items: "{{ sg_info }}"
