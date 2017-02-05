@@ -12,12 +12,14 @@
     vpc_id: "{{ sg_vpc_id }}"
   register: sg_info
 
+- debug: var=sg_info
+
 - name: Tag security groups
   ec2_tag:
     resource: "{{ sg_info.group_id }}"
-    region: "{{ sg_info.invocation.module_args.region | default(aws_region) }}"
-    profile: "{{ sg_info.invocation.module_args.profile | default(aws_profile) }}"
+    region: "{{ aws_region }}"
+    profile: "{{ aws_profile }}"
     state: present
     tags:
-      Name: "{{ sg_info.invocation.module_args.name }}"
+      Name: "{{ sg_cluster_name }}-cluster"
       ClusterName: "{{ sg_cluster_name }}"
