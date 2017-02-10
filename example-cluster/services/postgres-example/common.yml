@@ -27,6 +27,6 @@ ecs_taskdefinition_containers:
         containerPort: 5432
         protocol: tcp
 ecs_taskdefinition_state: present
-ecs_taskdefinition_family: "{{ ecs_service_name }}"
+ecs_taskdefinition_family: "{{ ecs_cluster_name }}__{{ ecs_service_name }}"
 ecs_taskdefinition_profile: "{{ aws_profile }}"
 ecs_taskdefinition_region: "{{ aws_region }}"
