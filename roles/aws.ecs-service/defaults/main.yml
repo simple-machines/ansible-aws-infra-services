@@ -14,3 +14,4 @@ ecs_load_balancers: []
 
 # task definition defaults
 ecs_taskdefinition_container_essential: true
+ecs_taskdefinition_family: "{{ ecs_cluster_name }}__{{ ecs_service_name }}"
