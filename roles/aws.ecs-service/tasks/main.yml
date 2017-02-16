@@ -1,5 +1,11 @@
 ---
 # tasks file for aws.ec2-service
+- name: Apply default values to containers
+  set_fact:
+    _taskdefinition_containers_with_defaults: "{{ (_taskdefinition_containers_with_defaults | default([])) +
+                                                    [ ecs_containers_defaults | combine(item) ] }}"
+  with_items: "{{ ecs_taskdefinition_containers }}"
+  when: ecs_apply_container_defaults
 
 
 ## Create task definition
@@ -7,7 +13,7 @@
   ecs_taskdefinition:
     profile: "{{ aws_profile }}"
     region: "{{ aws_region }}"
-    containers: "{{ ecs_taskdefinition_containers }}"
+    containers: "{{ _taskdefinition_containers_with_defaults | default(ecs_taskdefinition_containers) }}"
     state: "{{ ecs_taskdefinition_state }}"
     family: "{{ ecs_taskdefinition_family }}"
     revision: "{{ ecs_taskdefinition_revision | default(omit) }}"

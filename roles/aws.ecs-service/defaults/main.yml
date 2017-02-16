@@ -15,3 +15,14 @@ ecs_load_balancers: []
 # task definition defaults
 ecs_taskdefinition_container_essential: true
 ecs_taskdefinition_family: "{{ ecs_cluster_name }}__{{ ecs_service_name }}"
+
+
+ecs_log_configuration_default:
+  logDriver: "json-file" # other options include splunk, etc
+  options:         # options required based on log driver
+    max-size: "4g"          # the log won't occupy all the disk space
+
+ecs_containers_defaults:
+  logConfiguration: "{{ ecs_log_configuration_default }}"
+
+ecs_apply_container_defaults: true
