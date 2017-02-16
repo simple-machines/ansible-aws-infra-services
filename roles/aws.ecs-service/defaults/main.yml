@@ -20,7 +20,7 @@ ecs_taskdefinition_family: "{{ ecs_cluster_name }}__{{ ecs_service_name }}"
 ecs_log_configuration_default:
   logDriver: "json-file" # other options include splunk, etc
   options:         # options required based on log driver
-    max-size: "4g"          # the log won't occupy all the disk space
+    max-size: "200m"          # the log won't occupy all the disk space
 
 ecs_containers_defaults:
   logConfiguration: "{{ ecs_log_configuration_default }}"
