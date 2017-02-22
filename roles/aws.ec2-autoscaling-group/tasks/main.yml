@@ -55,6 +55,7 @@
 
 - name: "Find security groups to attach to the ASG"
   ec2_group_facts:
+    profile: "{{ aws_profile }}"
     filters:
       vpc-id: "{{ asg_vpc_id }}"
       "tag:ClusterName": "{{ asg_ecs_cluster_name }}"
@@ -67,6 +68,7 @@
       image_id: "{{ asg_launch_config_ami }}"
       key_name: "{{ asg_launch_config_key_name }}"
       region: "{{ aws_region }}"
+      profile: "{{ aws_profile }}"
       security_groups: "{{ asg_additional_security_groups + _security_groups['security_groups'] | map(attribute='group_id') | list }}"
       instance_type: "{{ asg_launch_config_instance_size }}"
       user_data: "{{ _launch_config_user_data }}"
@@ -90,6 +92,7 @@
     name: "{{ asg_ecs_cluster_name }}"
     launch_config_name: "{{ app_launch_config['name'] }}"
     region: "{{ aws_region }}"
+    profile: "{{ aws_profile }}"
     min_size: "{{ asg_min_size }}"
     max_size: "{{ asg_max_size }}"
     desired_capacity: "{{ asg_desired_capacity }}"
