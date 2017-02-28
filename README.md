@@ -9,6 +9,9 @@ This template is divided into two sub-templates.
 # Getting Started
 
 ```
+curl -L https://github.com/simple-machines/ansible-aws-infra-services/archive/master.tar.gz | tar zxv
+mv ansible-aws-infra-services-master ansible
+cd ansible
 # the vault password is never committed into the repository
 echo "<your vault password>" >> .vaultpassword
 ```
