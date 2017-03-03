@@ -4,9 +4,9 @@
   set_fact:
     _bootcmd: |
       - yum update -y ecs-init
-      - yum install -y nc telnet bind-utils xfsprogs {{ asg_additional_yum_packages }}
+      - yum install -y nc telnet bind-utils xfsprogs gcc {{ asg_additional_yum_packages }}
       - /usr/bin/easy_install pip
-      - /usr/local/bin/pip install --upgrade boto3 boto awscli requests {{ asg_additional_python_pip_packages }}
+      - /usr/local/bin/pip install --upgrade boto3 boto awscli requests psutil {{ asg_additional_python_pip_packages }}
       {{ asg_additional_user_data_bootcmd }}
 
 - name: Set write_files
