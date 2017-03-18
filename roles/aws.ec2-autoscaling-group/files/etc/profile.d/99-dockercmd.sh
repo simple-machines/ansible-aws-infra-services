@@ -6,3 +6,6 @@ alias dlogf='dlog -f'
 alias dlogt='dlog -t'
 function dex { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else docker exec -it $x "$@"; fi ;}
 function dattach { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else docker attach --no-stdin --sig-proxy=false $x "$@"; fi ;}
+alias di='docker images'
+alias drm='docker rm'
+alias drmi='docker rmi'
