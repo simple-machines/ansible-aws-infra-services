@@ -9,3 +9,4 @@ function dattach { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."
 alias di='docker images'
 alias drm='docker rm'
 alias drmi='docker rmi'
+function dstop { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else time docker stop "$@" $x; fi ;}
