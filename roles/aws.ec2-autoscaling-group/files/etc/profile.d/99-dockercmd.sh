@@ -12,7 +12,7 @@ alias dlogt='dlog -t'
 # Examples:
 #       $ dlogp topics  # logs for a container that has 'topics' in it's image name
 #       $ dlogp kafka   # logs for a container that has 'kafka' in it's image name
-#       $ dlogp 8002    # logs for a container that has '8082' in it's ports field
+#       $ dlogp 8082    # logs for a container that has '8082' in it's ports field
 function dlogp {
   if [[ "$#" -eq "0" ]]; then
     echo "Usage: dlogp <pattern - containerid, image name, etc.>"
