@@ -35,16 +35,16 @@ function dlogp {
 # Similar to dlogp but the logs are followed (docker logs -f)
 #
 # Example:
-#   $ dlogpf topics         # follow logs for a container that has 'topics' in it's image name
-function dlogpf {
-  dlogc $1 -f;
+#   $ dlogfp topics         # follow logs for a container that has 'topics' in it's image name
+function dlogfp {
+  dlogp $1 -f;
 }
 
 # Similar to dlogp but the logs are tailed (docker logs -t)
 #
 # Example:
-#   $ dlogpt topics         # tail logs for a container that has 'topics' in it's image name
-function dlogpt {
+#   $ dlogtp topics         # tail logs for a container that has 'topics' in it's image name
+function dlogtp {
   dlogp $1 -f;
 }
 
