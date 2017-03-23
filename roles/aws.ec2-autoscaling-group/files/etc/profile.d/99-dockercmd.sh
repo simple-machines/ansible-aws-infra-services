@@ -10,9 +10,9 @@ alias dlogt='dlog -t'
 # The pattern match happens on the 'docker ps' command output, so you can search for
 # container id, image name, status, etc.
 # Examples:
-#       $ dlogp topics  # match on image name
-#       $ dlogp kafka   # match on image name
-#       $ dlogp 8002    # match on ports
+#       $ dlogp topics  # logs for a container that has 'topics' in it's image name
+#       $ dlogp kafka   # logs for a container that has 'kafka' in it's image name
+#       $ dlogp 8002    # logs for a container that has '8082' in it's ports field
 function dlogp {
   if [[ "$#" -eq "0" ]]; then
     echo "Usage: dlogp <pattern - containerid, image name, etc.>"
@@ -33,11 +33,17 @@ function dlogp {
 }
 
 # Similar to dlogp but the logs are followed (docker logs -f)
+#
+# Example:
+#   $ dlogpf topics         # follow logs for a container that has 'topics' in it's image name
 function dlogpf {
   dlogc $1 -f;
 }
 
 # Similar to dlogp but the logs are tailed (docker logs -t)
+#
+# Example:
+#   $ dlogpt topics         # tail logs for a container that has 'topics' in it's image name
 function dlogpt {
   dlogp $1 -f;
 }
