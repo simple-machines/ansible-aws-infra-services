@@ -32,7 +32,7 @@ elb_health_check: # optional
     unhealthy_threshold: 2
     healthy_threshold: 10
 elb_container_name: "{{ container_name }}"
-elb_container_port: 80
+elb_container_port: 80 # has to be a number because of a bug
 
 # ECR role specific
 ecr_create: true
