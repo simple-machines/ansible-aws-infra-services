@@ -1,5 +1,6 @@
 ---
 # defaults file for aws.ec2-loadbalancer
+elb_sg_description: "Security group for the ELB: {{ elb_cluster_name }} / {{ elb_service_name }}"
 elb_sg_state: present
 elb_sg_rules: []
 elb_sg_purge_rules: true

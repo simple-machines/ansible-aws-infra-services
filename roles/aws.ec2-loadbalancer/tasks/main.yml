@@ -1,10 +1,8 @@
 ---
 # tasks file for aws.ec2-loadbalancer
-
----
 - name: Create ELB Security group
   ec2_group:
-    name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+    name: "{{ elb_cluster_name }}-{{ elb_service_name }}-lb"
     description: "{{ elb_sg_description }}"
     state: "{{ elb_sg_state }}"
     region: "{{ aws_region }}"
