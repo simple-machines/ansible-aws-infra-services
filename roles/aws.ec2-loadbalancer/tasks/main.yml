@@ -1,7 +1,57 @@
 ---
 # tasks file for aws.ec2-loadbalancer
 
-- name: TO BE IMPLEMENTED
-  fail:
-    msg: "ELB ROLE IS NOT YET IMPLEMENTED"
-    when: true
+---
+- name: Create ELB Security group
+  ec2_group:
+    name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+    description: "{{ elb_sg_description }}"
+    state: "{{ elb_sg_state }}"
+    region: "{{ aws_region }}"
+    profile: "{{ aws_profile }}"
+    rules: "{{ elb_sg_rules }}"
+    purge_rules: "{{ elb_sg_purge_rules }}"
+    purge_rules_egress: "{{ elb_sg_purge_rules_egress }}"
+    vpc_id: "{{ elb_vpc_id }}"
+  register: _elb_sg_info
+
+- name: Tag ELB Security Group
+  ec2_tag:
+    resource: "{{ _elb_sg_info.group_id }}"
+    region: "{{ aws_region }}"
+    profile: "{{ aws_profile }}"
+    state: present
+    tags:
+      name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+      ClusterName: "{{ elb_cluster_name }}"
+      EcsServiceName: "{{ elb_service_name }}"
+
+- name: create load balancer
+  ec2_elb_lb:
+    profile: "{{ aws_profile }}"
+    region: "{{ aws_region }}"
+    name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+    state: present
+    subnets: "{{ elb_subnets | join(',') }}"
+    security_group_names: "['{{ elb_cluster_name }}-{{ elb_service_name }}-elb']"
+    connection_draining_timeout: "{{ elb_connection_draining_timeout }}"
+    cross_az_load_balancing: "{{ elb_cross_az_load_balancing }}"
+    idle_timeout: "{{ elb_idle_timeout | default(omit) }}"
+    scheme: "{{ elb_scheme }}"
+    listeners: "{{ elb_listeners }}"
+    stickiness: "{{ elb_stickiness | default(omit) }}"
+    health_check: "{{ elb_health_check | default(omit) }}"
+    zones: "{{ elb_zones | default(omit) }}"
+    tags:
+      name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+      ClusterName: "{{ elb_cluster_name }}"
+      EcsServiceName: "{{ elb_service_name }}"
+  register: _elb_load_balancer
+
+
+- name: Extract load balancer parameters from elb module
+  set_fact:
+    _elb_ecs_load_balancers:
+      - loadBalancerName: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+        containerName: "{{ elb_container_name }}"
+        containerPort: "{{ elb_container_port }}"
