@@ -1,0 +1,65 @@
+---
+aws_region: "ap-southeast-2"
+aws_profile: "{{ aws_profile_env }}"
+
+# variables that are top level to encourage re-use
+container_name: "{{ ecs_service_name }}"
+container_port: 80
+elb_http_port: 80
+
+# ELB role specific
+elb_create: true
+elb_cluster_name: "{{ cluster_name }}"
+elb_service_name: "{{ service_name }}"
+elb_sg_rules:
+  - proto: http
+    from_port: "{{ elb_http_port }}"
+    to_port: "{{ elb_http_port }}"
+    cidr_ip: "0.0.0.0/0"
+elb_vpc_id: "{{ elb_vpc_id_env }}"
+elb_subnets: "{{ elb_subnets_env }}"
+elb_scheme: "internet-facing" # could be "internal" if private
+elb_listeners:
+  - protocol: http
+    load_balancer_port: "{{ elb_http_port }}"
+    instance_port: "{{ container_port }}"
+elb_health_check: # optional
+    ping_protocol: http # options are http, https, ssl, tcp
+    ping_port: "{{ container_port }}"
+    ping_path: "/" # not required for tcp or ssl
+    response_timeout: 5 # seconds
+    interval: 30 # seconds
+    unhealthy_threshold: 2
+    healthy_threshold: 10
+elb_container_name: "{{ container_name }}"
+elb_container_port: 80
+
+# ECR role specific
+ecr_create: true
+ecr_repository_name: "{{ service_name }}"
+ecr_additional_aws_account_list: []
+
+# ECS role specific
+ecs_service_desired_count: "{{ ecs_service_desired_count_env }}"
+ecs_cluster_name: "{{ cluster_name }}"
+ecs_service_name: "{{ service_name }}"
+ecs_taskdefinition_containers:
+  - name: "{{ ecs_service_name }}"
+    essential: true
+    image: codesuki/ecs-nginx-proxy:latest
+    memory: 128
+    environment:
+      - name: "ECS_GEN_REGION"
+        value: "{{ aws_region }}"
+    portMappings:
+      - hostPort: "{{ container_port }}"
+        containerPort: "{{ container_port }}"
+        protocol: http
+
+ecs_deployment_configuration:
+  minimum_healthy_percent: 0
+  maximum_percent: 200
+
+ecs_taskdefinition_state: present
+ecs_taskdefinition_profile: "{{ aws_profile }}"
+ecs_taskdefinition_region: "{{ aws_region }}"
