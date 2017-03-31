@@ -20,7 +20,7 @@
     profile: "{{ aws_profile }}"
     state: present
     tags:
-      name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+      Name: "{{ elb_cluster_name }}-{{ elb_service_name }}-lb"
       ClusterName: "{{ elb_cluster_name }}"
       EcsServiceName: "{{ elb_service_name }}"
 
@@ -28,10 +28,10 @@
   ec2_elb_lb:
     profile: "{{ aws_profile }}"
     region: "{{ aws_region }}"
-    name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+    name: "{{ elb_cluster_name }}-{{ elb_service_name }}-lb"
     state: present
     subnets: "{{ elb_subnets | join(',') }}"
-    security_group_names: "['{{ elb_cluster_name }}-{{ elb_service_name }}-elb']"
+    security_group_names: "['{{ elb_cluster_name }}-{{ elb_service_name }}-lb']"
     connection_draining_timeout: "{{ elb_connection_draining_timeout }}"
     cross_az_load_balancing: "{{ elb_cross_az_load_balancing }}"
     idle_timeout: "{{ elb_idle_timeout | default(omit) }}"
@@ -41,7 +41,7 @@
     health_check: "{{ elb_health_check | default(omit) }}"
     zones: "{{ elb_zones | default(omit) }}"
     tags:
-      name: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+      Name: "{{ elb_cluster_name }}-{{ elb_service_name }}-lb"
       ClusterName: "{{ elb_cluster_name }}"
       EcsServiceName: "{{ elb_service_name }}"
   register: _elb_load_balancer
@@ -50,6 +50,6 @@
 - name: Extract load balancer parameters from elb module
   set_fact:
     _elb_ecs_load_balancers:
-      - loadBalancerName: "{{ elb_cluster_name }}-{{ elb_service_name }}-elb"
+      - loadBalancerName: "{{ elb_cluster_name }}-{{ elb_service_name }}-lb"
         containerName: "{{ elb_container_name }}"
         containerPort: "{{ elb_container_port }}"
