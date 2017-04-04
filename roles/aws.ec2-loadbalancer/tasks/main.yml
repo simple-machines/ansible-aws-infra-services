@@ -4,7 +4,7 @@
   ec2_group:
     name: "{{ elb_cluster_name }}-{{ elb_service_name }}-lb"
     description: "{{ elb_sg_description }}"
-    state: "{{ elb_sg_state }}"
+    state: present
     region: "{{ aws_region }}"
     profile: "{{ aws_profile }}"
     rules: "{{ elb_sg_rules }}"

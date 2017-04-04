@@ -18,18 +18,18 @@ echo "<your vault password>" >> .vaultpassword
 
 ## Adding password file and edit the secret variables
 ### Infrastructure
-To change the vault for Infrastructure it follows  
+To change the vault for Infrastructure it follows
 ./editvault.sh infrastructure [cluster name] [environment]
 ```
-echo "12345">.vaultpassword  
+echo "12345">.vaultpassword
 ./editvault.sh infrastructure example-cluster dev
 ```
 
 ### Services
-To change the vault for Services it follows  
+To change the vault for Services it follows
 ./editvault.sh services [cluster name] [service name] [environment]
 ```
-echo "12345">.vaultpassword  
+echo "12345">.vaultpassword
 ./editvault.sh services example-cluster postgres-example dev
 ```
 
@@ -208,14 +208,43 @@ run-services.sh [cluster name] [service name] [environment]
 
 Please note that the `cluster_name` and `service_name` are set at runtime and therefore shouldn't be set within your playbooks. This guarantees consistency and enforces strict naming convention over folders.
 
-## Variables
+# Variables
 
 Variables can be common to all environments or specific to dev/test/prod.
 
-### Environment specific
 
-TODO
+## ELB
 
-### Common
+To activate the creation of an ELB, place `create_elb: true` in `common.yml`.
 
-TODO
+The module will create:
+- a security group for your ELB (the security group will be named `{{ elb_cluster_name }}-{{ elb_service_name }}-lb`)
+- tags for that security group
+- the ELB (classic) (the ELB will be named `{{ elb_cluster_name }}-{{ elb_service_name }}-lb`)
+
+The module outputs:
+- a variable named `_elb_ecs_load_balancers` containing information about the load balancer (used behind the scenes by the ecs_service module, not needed from a user perspective)
+
+Information:
+- You can find a list of defaults at [roles/aws.ec2-loadbalancer/defaults/main.yml](roles/aws.ec2-loadbalancer/defaults/main.yml)
+- You can find the list of tasks at [roles/aws.ec2-loadbalancer/tasks/main.yml](roles/aws.ec2-loadbalancer/tasks/main.yml)
+
+
+| variable name                   | importance | default          | description                                                                                      |
+|---------------------------------|------------|------------------|--------------------------------------------------------------------------------------------------|
+| elb_cluster_name                | **mandatory**  |                  | Your cluster name. You should set it to “{{ cluster_name }}”                                     |
+| elb_service_name                | **mandatory**  |                  | Your cluster name. You should set it to “{{ service_name }}”                                     |
+| elb_vpc_id                      | **mandatory**  |                  | The VPC id of where your ELB will be created.                                                    |
+| elb_subnets                     | **mandatory**  |                  | list of subnets to deploy the ELB to,ex: [‘subnet-id1’,‘subnet-id2’]                             |
+| elb_listeners                   | **mandatory**  |                  | list of listeners, see example provided orhttp://docs.ansible.com/ansible/ec2_elb_lb_module.html |
+| elb_sg_rules                    | **mandatory**       | []               | List of rules for your ELB security group. Read doc at or view examples folder                   |
+| elb_scheme                      | high     | internet-facing  | internal (for internal traffic), internet-facing (for external traffic)                          |
+| elb_connection_draining_timeout | medium     | 60               | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
+| elb_cross_az_load_balancing     | medium     | no               | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
+| elb_stickiness                  | medium     |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
+| elb_health_check                | medium     |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
+| elb_sg_description              | low        | default/main.yml | Description of ELB security group                                                                |
+| elb_sg_purge_rules              | low        | yes             | Clear out unmatched rules, should remain true                                                    |
+| elb_sg_purge_rules_egress       | low        | yes             | Clear out unmatched egress rules, should remain true                                             |
+| elb_idle_timeout                | low        |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
+| elb_zones                       | low        |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |

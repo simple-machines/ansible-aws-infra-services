@@ -1,5 +1,5 @@
 aws_profile_env: "<your dev profile>"
-vpc_id_env: "<your dev vpc ip>"
+vpc_id_env: "<your dev vpc id>"
 asg_launch_config_key_name_env: "<your dev key name>"
 asg_launch_config_instance_profile_name_env: "<your dev instance profile>"
 asg_subnets_env: ['<your list of subnets>']

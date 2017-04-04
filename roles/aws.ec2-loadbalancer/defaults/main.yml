@@ -1,10 +1,9 @@
 ---
 # defaults file for aws.ec2-loadbalancer
 elb_sg_description: "Security group for the ELB: {{ elb_cluster_name }} / {{ elb_service_name }}"
-elb_sg_state: present
 elb_sg_rules: []
-elb_sg_purge_rules: true
-elb_sg_purge_rules_egress: true
+elb_sg_purge_rules: yes
+elb_sg_purge_rules_egress: yes
 
 elb_connection_draining_timeout: 60
 elb_cross_az_load_balancing: no
