@@ -1,3 +1,4 @@
+#!/bin/bash
 alias watch='watch '
 alias dps='docker ps'
 
@@ -20,14 +21,16 @@ function dlogp {
   fi
 
   read -r -a CONTAINERS <<< $(docker ps | grep $1 | awk '{print $1}')
-  if [[ "${#CONTAINERS[@]}" -eq "1" ]]; then
+  # we have to count it this way otherwise the file can't go in cloud-init
+  N_CONTAINERS=$(docker ps | grep $1 | awk '{print $1}' | wc -l )
+  if [[ "$N_CONTAINERS" -eq "1" ]]; then
     # Found one container matching $1
     shift
     docker logs "$@" ${CONTAINERS[0]}
-  elif [[ "${#CONTAINERS[@]}" -eq "0" ]]; then
+  elif [[ "$N_CONTAINERS" -eq "0" ]]; then
     echo "No container matching $1"
   else
-    echo "${#CONTAINERS[@]} containers matching $1"
+    echo "$N_CONTAINERS containers matching $1"
     docker ps | grep "$1"
   fi
 }
