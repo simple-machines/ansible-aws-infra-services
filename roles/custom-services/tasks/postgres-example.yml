@@ -1,0 +1,9 @@
+---
+# custom tasks file for postgres-example
+- name: "Include any custom task for your service here. These will be executed before any other template"
+  debug:
+    msg: "Hi from: {{ postgres_hello_world }}"
+
+- name: "Export some result to be used by other tasks"
+  set_fact:
+    postgres_custom_label: "This variable is accessible from the other roles now"

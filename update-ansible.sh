@@ -14,6 +14,7 @@ fi
 
 rsync \
       --exclude="example-cluster" \
+      --exclude="roles/custom*" \
       --include="roles/***" \
       --include="scripts/***" \
-      -rav $UPDATE_FROM/* .
+      -rav $UPDATE_FROM/* . \

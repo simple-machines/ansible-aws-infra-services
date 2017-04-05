@@ -210,10 +210,9 @@ run-services.sh [cluster name] [service name] [environment]
 
 Please note that the `cluster_name` and `service_name` are set at runtime and therefore shouldn't be set within your playbooks. This guarantees consistency and enforces strict naming convention over folders.
 
-# Variables
+# Services
 
-Variables can be common to all environments or specific to dev/test/prod.
-
+Variables can be common (common.yml) to all environments or specific to dev/test/prod (dev.yml, test.yml, prod.yml, etc).
 
 ## ELB
 
@@ -250,3 +249,18 @@ Information:
 | elb_sg_purge_rules_egress       | low        | yes             | Clear out unmatched egress rules, should remain true                                             |
 | elb_idle_timeout                | low        |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
 | elb_zones                       | low        |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
+
+
+## Custom Tasks
+
+In case you require extra components to be set-up (for example, an RDS database, an SQS queue, a SNS topic, etc...), you can write your own playbooks and have them being included automatically. Any variable registered through them will be available in your other playbooks, for example to extract an environment variable for your ECS task definition.
+
+An example is provided as part of example-cluster [example-cluster/services/postgres-example/common.yml](example-cluster/services/postgres-example/common.yml) and [roles/custom-services/tasks/postgres-example.yml](roles/custom-services/tasks/postgres-example.yml)
+
+Writing custom tasks is easy.
+1) create the `custom_task_files` variable as an array of filenames you'd like to include
+  - Example: `custom_task_files: ['my-custom-task.yml']`
+2) write your custom task file in `roles/custon-services/tasks/my-custom-task.yml`
+3) create variables required by the task files in `common.yml`, or `dev.yml`, etc..
+
+Please note custom tasks are run *before* the ELB, ECR and ECS module.
