@@ -26,3 +26,5 @@ ecs_containers_defaults:
   logConfiguration: "{{ ecs_log_configuration_default }}"
 
 ecs_apply_container_defaults: true
+
+ecs_role: ecsServiceRole
