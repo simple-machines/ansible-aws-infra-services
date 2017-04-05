@@ -239,6 +239,8 @@ Information:
 | elb_subnets                     | **mandatory**  |                  | list of subnets to deploy the ELB to,ex: [‘subnet-id1’,‘subnet-id2’]                             |
 | elb_listeners                   | **mandatory**  |                  | list of listeners, see example provided orhttp://docs.ansible.com/ansible/ec2_elb_lb_module.html |
 | elb_sg_rules                    | **mandatory**       | []               | List of rules for your ELB security group. Read doc at or view examples folder                   |
+| elb_container_name                    | **mandatory**       |                | ECS Container name that your load balancer will be pointing to                   |
+| elb_container_port                    | **mandatory**       |                | ECS Container port that your load balancer will be pointing to                   |
 | elb_scheme                      | high     | internet-facing  | internal (for internal traffic), internet-facing (for external traffic)                          |
 | elb_connection_draining_timeout | medium     | 60               | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
 | elb_cross_az_load_balancing     | medium     | no               | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |

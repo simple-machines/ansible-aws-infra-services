@@ -52,15 +52,6 @@
         {{ _runcmd | indent(2, false) }}
       {{ asg_additional_cloud_config_commands }}
 
-
-- name: "Find security groups to attach to the ASG"
-  ec2_group_facts:
-    profile: "{{ aws_profile }}"
-    filters:
-      vpc-id: "{{ asg_vpc_id }}"
-      "tag:ClusterName": "{{ asg_ecs_cluster_name }}"
-  register: _security_groups
-
 - name: Set launch config params fact
   set_fact:
     _launch_config_params:
@@ -69,7 +60,7 @@
       key_name: "{{ asg_launch_config_key_name }}"
       region: "{{ aws_region }}"
       profile: "{{ aws_profile }}"
-      security_groups: "{{ asg_additional_security_groups + _security_groups['security_groups'] | map(attribute='group_id') | list }}"
+      security_groups: "{{ asg_additional_security_groups + [sg_info_output.group_id] }}"
       instance_type: "{{ asg_launch_config_instance_size }}"
       user_data: "{{ _launch_config_user_data }}"
       instance_profile_name: "{{ asg_launch_config_instance_profile_name }}"

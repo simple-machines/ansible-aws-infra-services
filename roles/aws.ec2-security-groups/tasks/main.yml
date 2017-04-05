@@ -10,11 +10,11 @@
     purge_rules: "{{ sg_purge_rules }}"
     purge_rules_egress: "{{ sg_purge_rules_egress }}"
     vpc_id: "{{ sg_vpc_id }}"
-  register: sg_info
+  register: sg_info_output
 
 - name: Tag security groups
   ec2_tag:
-    resource: "{{ sg_info.group_id }}"
+    resource: "{{ sg_info_output.group_id }}"
     region: "{{ aws_region }}"
     profile: "{{ aws_profile }}"
     state: present

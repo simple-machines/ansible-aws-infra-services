@@ -12,7 +12,7 @@ elb_create: true
 elb_cluster_name: "{{ cluster_name }}"
 elb_service_name: "{{ service_name }}"
 elb_sg_rules:
-  - proto: http
+  - proto: tcp
     from_port: "{{ elb_http_port }}"
     to_port: "{{ elb_http_port }}"
     cidr_ip: "0.0.0.0/0"
