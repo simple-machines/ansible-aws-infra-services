@@ -17,7 +17,13 @@ sg_rules:
   - proto: tcp     # for the ECS NGinx proxy
     from_port: 80
     to_port: 80
-    group_name: "10.100.0.0/16" # change to your ELB security group name if needed
+    group_name: "10.100.0.0/16" # see below to only Authorize traffic from ELB
+  # - proto: tcp     # for the ECS NGinx proxy
+  #   from_port: 80
+  #   to_port: 80
+  #   group_name: "cluster_name-service_name-lb" # change to your ELB security group name
+  #   group_desc: "Dummy description"
+
   - proto: all     # Authorize all the internal traffic between your machines
     group_name: "{{ sg_cluster_name }}-cluster"
 
