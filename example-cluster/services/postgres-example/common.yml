@@ -25,6 +25,10 @@ ecs_taskdefinition_containers:
     environment:
       - name: "POSTGRES_PASSWORD"
         value: "mysecretpassword"
+    labels:
+      # this variable actually comes from the custom playbook at
+      # roles/custom-services/tasks/postgres-example.yml
+      postgres_custom_label: "{{ postgres_custom_label }}"
     portMappings:
       - hostPort: 5432
         containerPort: 5432
