@@ -21,7 +21,8 @@ echo "<your vault password>" >> .vaultpassword
 To change the vault for Infrastructure it follows
 ./editvault.sh infrastructure [cluster name] [environment]
 ```
-echo "12345">.vaultpassword
+# the vault password is never committed into the repository
+echo "<your vault password>" >> .vaultpassword
 ./editvault.sh infrastructure example-cluster dev
 ```
 
@@ -29,7 +30,8 @@ echo "12345">.vaultpassword
 To change the vault for Services it follows
 ./editvault.sh services [cluster name] [service name] [environment]
 ```
-echo "12345">.vaultpassword
+# the vault password is never committed into the repository
+echo "<your vault password>" >> .vaultpassword
 ./editvault.sh services example-cluster postgres-example dev
 ```
 

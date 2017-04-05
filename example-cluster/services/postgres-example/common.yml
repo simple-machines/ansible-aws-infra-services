@@ -15,7 +15,6 @@ ecs_cluster_name: "{{ cluster_name }}"
 ecs_service_name: "{{ service_name }}"
 ecs_taskdefinition_containers:
   - name: "{{ ecs_service_name }}"
-    cpu: 50
     essential: true
     image:  postgres:latest
     memory: 500
