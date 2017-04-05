@@ -3,6 +3,10 @@
 aws_region: "ap-southeast-2"
 aws_profile: "{{ aws_profile_env }}"
 
+# Run some custom tasks for postgres-example
+custom_task_files:
+  - postgres-example.yml
+postgres_hello_world: "custom postgres task variable!"
 
 # ECR role specific
 ecr_create: true

@@ -7,6 +7,8 @@
     - ["{{ cluster_name }}/services/{{ service_name }}/{{ env }}.vault.yml", "{{ cluster_name }}/services/{{ service_name }}/{{ env }}.yml"]  # load vault if exists
     - "{{ cluster_name }}/services/{{ service_name }}/{{ env }}.yml"              # include environment specific variables
   roles:
+    - role: custom-services                             # Include custom role for the service
+      when: custom_task_files | default([])
     - role: roles/aws.ec2-loadbalancer                  # create the load balancer for the service if needed
       when: elb_create | default(false)
     - role: roles/aws.ecs-ecr                           # create an ECR repository if needed
