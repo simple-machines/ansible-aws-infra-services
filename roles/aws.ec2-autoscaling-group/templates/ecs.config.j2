@@ -2,3 +2,5 @@ ECS_CLUSTER={{ asg_ecs_cluster_name }}
 AWS_DEFAULT_REGION={{ aws_region }}
 ECS_AVAILABLE_LOGGING_DRIVERS=["awslogs","fluentd","gelf","json-file","journald","splunk","syslog"]
 {{ asg_additional_ecs_config }}
+ECS_ENABLE_TASK_IAM_ROLE=true
+ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true
