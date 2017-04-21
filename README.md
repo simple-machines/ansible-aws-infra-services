@@ -266,3 +266,16 @@ Writing custom tasks is easy.
 3) create variables required by the task files in `common.yml`, or `dev.yml`, etc..
 
 Please note custom tasks are run *before* the ELB, ECR and ECS module.
+
+# EC2 Instances Shortcuts (alias and functions)
+
+- dps: shortcut for docker ps
+- dl : get the id of running docker container
+- dlog : get the log of the running container
+- dlogp <containername> : get the log of the matching container name
+- dlogf : get the tailing log of the running container
+- dlogfp <containername> : get the tailing log of the matching container name
+- dlogt : get the log with timestamps of the running container
+- dlog -ft : get the log of the running container with tailing and timestamps
+- dex <command> : docker execute command (interactive mode) on the running container (ex: dex bash)
+- dattach: print log as it streams (docker attach --no-stdin --sig-proxy=false)
