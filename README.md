@@ -273,9 +273,10 @@ Please note custom tasks are run *before* the ELB, ECR and ECS module.
 - `dl` : get the id of running docker container
 - `dlog` : get the log of the running container
 - `dlogp <containername>` : get the log of the matching container name
-- `dlogf` : get the tailing log of the running container
+- `dlogf` : get the tailing log of the running container. Useful to do `dlogf --tail=200`
 - `dlogfp <containername>` : get the tailing log of the matching container name
 - `dlogt` : get the log with timestamps of the running container
 - `dlog -ft` : get the log of the running container with tailing and timestamps
 - `dex <command>` : docker execute command (interactive mode) on the running container (ex: dex bash)
 - `dattach`: print log as it streams (docker attach --no-stdin --sig-proxy=false)
+- `dstop`: docker stop the latest container. Useful to do `dstop --time=200`
