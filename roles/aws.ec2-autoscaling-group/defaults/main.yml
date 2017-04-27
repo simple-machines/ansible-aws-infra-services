@@ -19,6 +19,7 @@ asg_launch_config_root_volume_size: 16 # Volume of the root volume on the ecs in
 
 asg_additional_security_groups: [] # adding additional non tagged security groups
 asg_additional_tags: []
+asg_additional_volumes: []
 
 # values to override for sure:
 asg_ecs_cluster_name: ""

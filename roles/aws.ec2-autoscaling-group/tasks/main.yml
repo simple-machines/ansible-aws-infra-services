@@ -72,7 +72,7 @@
       user_data: "{{ _launch_config_user_data }}"
       instance_profile_name: "{{ asg_launch_config_instance_profile_name }}"
       assign_public_ip: "{{ asg_launch_config_assign_public_ip }}"
-      volumes: "{{ _launch_config_volumes }}"
+      volumes: "{{ _launch_config_volumes + asg_additional_volumes }}"
 
 - name: Set launch config hash fact
   set_fact:
