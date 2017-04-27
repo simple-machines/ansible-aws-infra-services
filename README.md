@@ -156,6 +156,7 @@ asg_max_size: 1
 asg_desired_capacity: 1
 asg_subnets: []
 asg_launch_config_instance_size: "t2.small"
+asg_launch_config_root_volume_size: 100
 
 asg_additional_security_groups: [] # adding additional non tagged security groups
 asg_additional_tags: []
