@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export ANSIBLE_BRANCH=devel
 export ANSIBLE_VERSION=2.3.0
 export ANSIBLE_COMMIT_HASH=829c0b8f6284ec37e36f1454d7d3640415239cb2
