@@ -15,6 +15,7 @@ asg_max_size: 1
 asg_desired_capacity: 1
 asg_subnets: []
 asg_launch_config_instance_size: "t2.small"
+asg_launch_config_root_volume_size: 16 # Volume of the root volume on the ecs instance ( in GB )
 
 asg_additional_security_groups: [] # adding additional non tagged security groups
 asg_additional_tags: []
@@ -24,5 +25,5 @@ asg_ecs_cluster_name: ""
 asg_launch_config_key_name: ""
 asg_launch_config_instance_profile_name: ""
 
-# asg_launch_config_amis_per_region is defined in vars.yml and can't be overriden. 
+# asg_launch_config_amis_per_region is defined in vars.yml and can't be overriden.
 asg_launch_config_ami: "{{ asg_launch_config_amis_per_region[aws_region] }}"

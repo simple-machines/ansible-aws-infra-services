@@ -52,6 +52,13 @@
         {{ _runcmd | indent(2, false) }}
       {{ asg_additional_cloud_config_commands }}
 
+- name: Set launch config volumes fact
+  set_fact:
+    _launch_config_volumes:
+      - device_name: /dev/xvda
+        volume_size: "{{ asg_launch_config_root_volume_size }}"
+        delete_on_termination: true
+
 - name: Set launch config params fact
   set_fact:
     _launch_config_params:
@@ -65,6 +72,7 @@
       user_data: "{{ _launch_config_user_data }}"
       instance_profile_name: "{{ asg_launch_config_instance_profile_name }}"
       assign_public_ip: "{{ asg_launch_config_assign_public_ip }}"
+      volumes: "{{ _launch_config_volumes }}"
 
 - name: Set launch config hash fact
   set_fact:
