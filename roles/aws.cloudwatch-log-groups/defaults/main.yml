@@ -1,0 +1,3 @@
+---
+# defaults file for aws.log-groups
+cloudwatch_log_group_name: ""
