@@ -11,7 +11,9 @@
   ecs_ecr:
     region: "{{ aws_region }}"
     profile: "{{ aws_profile }}"
-    name: "{{ ecr_repository_name }}"
+    name: "{{ item }}"
     force_set_policy: "{{ ecr_force_set_policy }}"
     policy: "{{ lookup('template', 'policy.json.j2') }}"
     state: "{{ ecr_state }}"
+  with_items:
+    - "{{ ecr_repository_name }}"
