@@ -215,6 +215,38 @@ Please note that the `cluster_name` and `service_name` are set at runtime and th
 
 Variables can be common (common.yml) to all environments or specific to dev/test/prod (dev.yml, test.yml, prod.yml, etc).
 
+## ECR
+
+To create one or more ECR repositories, place `ecr_create: true` in
+`common.yml`. The module will create a new ECR repository for each
+value in the `{{ ecr_repository_name }}` variable. This can either be
+a single value or a list of values.
+
+````
+ecr_repository_name: "{{ service_name }}"
+````
+
+or
+
+````
+ecr_repository_name:
+  - "{{ service_name }}/container1"
+  - "{{ service_name }}/container2"
+  - "{{ service_name }}/container3"
+````
+
+To use images in an ECR repository you might like to specify it like
+so in your containter definitions:
+
+````
+  image: "{{ aws_account_id['stdout'] }}.dkr.ecr.{{ aws_region }}.amazonaws.com/{{ service_name }}:latest"
+````
+
+| variable name                   | importance | default          | description                                                                                      |
+|---------------------------------|------------|------------------|--------------------------------------------------------------------------------------------------|
+| ecr_repository_name             | **mandatory** |               | Name for repository *or* YAML list of names. |
+| ecr_additional_aws_account_list | medium        | []            | List of additional AWS accounts to grant access to the repository. |
+
 ## ELB
 
 To activate the creation of an ELB, place `create_elb: true` in `common.yml`.
