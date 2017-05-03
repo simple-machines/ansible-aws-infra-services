@@ -1,0 +1,34 @@
+---
+- name: "Create CloudWatch log group if required"
+  register: _cloudwatch_log_group_create
+  changed_when: "'CREATED' in _cloudwatch_log_group_create.stderr"
+  shell: |
+    set -eu
+    REGION="{{ aws_region }}"
+    PROFILE="{{ aws_profile }}"
+    [ -z "{{ cloudwatch_log_group_name }}" ] && exit 1
+
+    # Check whether it already exists.
+    arn=$(aws logs describe-log-groups \
+            --region "$REGION" --profile "$PROFILE"  --output text \
+            --max-items 1 --log-group-name-prefix "{{ cloudwatch_log_group_name }}" \
+          | awk '$4 == "{{ cloudwatch_log_group_name }}" { print $2 }')
+
+    if [ -n "$arn" ]; then
+      echo "UNCHANGED " > /dev/stderr
+      echo "$arn"
+    else
+      aws logs create-log-group \
+        --region "$REGION" --profile "$PROFILE"  --output text \
+        --log-group-name "{{ cloudwatch_log_group_name }}"
+      echo "CREATED " > /dev/stderr
+      aws logs describe-log-groups \
+        --region "$REGION" --profile "$PROFILE"  --output text \
+        --max-items 1 --log-group-name-prefix "{{ cloudwatch_log_group_name }}" \
+      | awk '$4 == "{{ cloudwatch_log_group_name }}" { print $2 }'
+    fi
+
+- name: "Register CloudWatch log group ARN fact"
+  when: _cloudwatch_log_group_create|succeeded
+  set_fact:
+    cloudwatch_log_group_arn: "{{ _cloudwatch_log_group_create['stdout'] }}"
