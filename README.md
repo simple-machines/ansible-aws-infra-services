@@ -268,6 +268,20 @@ Writing custom tasks is easy.
 
 Please note custom tasks are run *before* the ELB, ECR and ECS module.
 
+### CloudWatch Log Groups
+
+You can use the `cloudwatch_log_group.yml` custom task to create a log
+group:
+
+````
+cloudwatch_log_group_name: "{{ cloudwatch_log_group_name_env }}
+custom_task_files:
+  - cloudwatch_log_group.yml
+````
+
+This will create a log group with the specified name and set the
+`cloudwatch_log_group_arn` variable with the ARN of the log group.
+
 # EC2 Instances Shortcuts (alias and functions)
 
 - `dps`: shortcut for docker ps
