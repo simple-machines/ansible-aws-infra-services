@@ -40,6 +40,7 @@
     stickiness: "{{ elb_stickiness | default(omit) }}"
     health_check: "{{ elb_health_check | default(omit) }}"
     zones: "{{ elb_zones | default(omit) }}"
+    access_logs: "{{ elb_access_logs | default(omit) }}"
     tags:
       Name: "{{ elb_cluster_name }}-{{ elb_service_name }}-lb"
       ClusterName: "{{ elb_cluster_name }}"
