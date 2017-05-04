@@ -33,6 +33,10 @@ elb_health_check: # optional
     healthy_threshold: 10
 elb_container_name: "{{ container_name }}"
 elb_container_port: 80 # has to be a number because of a bug
+elb_access_logs:
+    interval: 5 # minutes (defaults to 60)
+    s3_location: "{{ elb_logs_s3_location_env }}"
+    s3_prefix: "{{ elb_logs_s3_prefix_env }}"
 
 # ECR role specific
 ecr_create: true
