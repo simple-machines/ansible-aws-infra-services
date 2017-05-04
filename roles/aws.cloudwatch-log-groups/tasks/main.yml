@@ -1,0 +1,19 @@
+---
+- name: "Create CloudWatch log group if required"
+  register: cloudwatch_log_group_arn
+  shell: |
+    # Check whether it already exists.
+    arn=$(aws logs describe-log-groups \
+        --output text \
+        --max-items 1 --log-group-name-prefix "{{ cloudwatch_log_group_name }}" \
+    | awk '$4 == "{{ cloudwatch_log_group_name }}" { print $2 }')
+
+    if [ -n "$arn" ]; then
+      echo "$arn"
+    else
+      aws logs create-log-group --output text --log-group-name "{{ cloudwatch_log_group_name }}"
+      aws logs describe-log-groups \
+        --output text \
+        --max-items 1 --log-group-name-prefix "{{ cloudwatch_log_group_name }}" \
+      | awk '$4 == "{{ cloudwatch_log_group_name }}" { print $2 }'
+    fi
