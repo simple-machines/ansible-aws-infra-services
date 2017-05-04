@@ -4,3 +4,5 @@ aws_profile_env: "default"
 elb_vpc_id_env: "<your dev vpc id for your elb>"
 elb_subnets_env: ['subnet-id1', 'subnet-id2', 'subnet-id3']
 ecs_service_desired_count_env: 1
+elb_logs_s3_location: "<s3 bucket name for the elb access logs>"
+elb_logs_s3_prefix: "<s3 bucket prefix>"

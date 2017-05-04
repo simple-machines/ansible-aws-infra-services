@@ -279,6 +279,7 @@ Information:
 | elb_cross_az_load_balancing     | medium     | no               | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
 | elb_stickiness                  | medium     |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
 | elb_health_check                | medium     |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
+| elb_access_logs                 | medium     |                  | see http://docs.ansible.com/ansible/ec2_elb_lb_module.html doc                                   |
 | elb_sg_description              | low        | default/main.yml | Description of ELB security group                                                                |
 | elb_sg_purge_rules              | low        | yes             | Clear out unmatched rules, should remain true                                                    |
 | elb_sg_purge_rules_egress       | low        | yes             | Clear out unmatched egress rules, should remain true                                             |
