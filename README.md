@@ -249,7 +249,7 @@ so in your containter definitions:
 
 ## ELB
 
-To activate the creation of an ELB, place `create_elb: true` in `common.yml`.
+To activate the creation of an ELB, place `elb_create: true` in `common.yml`.
 
 The module will create:
 - a security group for your ELB (the security group will be named `{{ elb_cluster_name }}-{{ elb_service_name }}-lb`)
