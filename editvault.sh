@@ -42,25 +42,26 @@ case $# in
 	;;
     0)
 	# Discover clusters, services, environments
-	DISCOVERED=$(find . -type f -name '*.yml' ! -name 'common.yml' | ( grep /services/ || true ) | cut -d/ -f2,4,5)
+	DISCOVERED=$(find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' | ( grep /services/ || true ) | cut -d/ -f2,4,5)
 	OPTIONS_CLUSTER=$(echo "$DISCOVERED" | cut -d/ -f1 | sort -u | tr "\n" "," | sed -Ee 's/,$//;s/,/, /g')
 	OPTIONS_SERVICE=$(echo "$DISCOVERED" | cut -d/ -f2 | sort -u | tr "\n" ","| sed -Ee 's/,$//;s/,/, /g')
 	OPTIONS_ENV=$(echo "$DISCOVERED" | cut -d/ -f3 | cut -d. -f1 | sort -u | tr "\n" ","| sed -Ee 's/,$//;s/,/, /g')
-	echo "$USAGE"
 	cat <<EOF
+$USAGE
 
 OPTIONS
 
-    Clusters:
-        ${OPTIONS_CLUSTER:-"NONE"}
+    You may want to run one of the following commands:
 
-    Services:
-        ${OPTIONS_SERVICE:-"NONE"}
-
-    Environments:
-        ${OPTIONS_ENV:-"NONE"}
 EOF
 
+	find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' | sort \
+	    | egrep '^./([^/]+/services/[^/]+/.*.yml|[^/]+/infrastructure/.*.yml)$' \
+	    | sed -Ee "/infrastructure/s#^./([^/]*)/infrastructure/(.*).yml#    $0 \1 \2#" \
+	    | sed -Ee "/services/s#^./([^/]*)/services/([^/]*)/(.*).yml\$#    $0 \1 \2 \3#g" \
+	    || echo "        ERROR: No clusters or services found"
+
+	echo
 	;;
     *)
 	echo "Error: $0 requires 2 or 3 options. $USAGE"
