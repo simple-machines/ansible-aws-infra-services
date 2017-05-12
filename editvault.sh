@@ -40,14 +40,9 @@ case $# in
                "simplemachines/ansible-template:$DOCKER_TAG" \
                scripts/editvault-infrastructure.sh
 	;;
-    0)
-	# Discover clusters, services, environments
-	DISCOVERED=$(find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' | ( grep /services/ || true ) | cut -d/ -f2,4,5)
-	OPTIONS_CLUSTER=$(echo "$DISCOVERED" | cut -d/ -f1 | sort -u | tr "\n" "," | sed -Ee 's/,$//;s/,/, /g')
-	OPTIONS_SERVICE=$(echo "$DISCOVERED" | cut -d/ -f2 | sort -u | tr "\n" ","| sed -Ee 's/,$//;s/,/, /g')
-	OPTIONS_ENV=$(echo "$DISCOVERED" | cut -d/ -f3 | cut -d. -f1 | sort -u | tr "\n" ","| sed -Ee 's/,$//;s/,/, /g')
+    *) # Display usage along with suggested arguments
 	cat <<EOF
-$USAGE
+ERROR: $0 requires 2 or 3 arguments; $# provided. $USAGE
 
 OPTIONS
 
@@ -60,11 +55,6 @@ EOF
 	    | sed -Ee "/infrastructure/s#^./([^/]*)/infrastructure/(.*).yml#    $0 \1 \2#" \
 	    | sed -Ee "/services/s#^./([^/]*)/services/([^/]*)/(.*).yml\$#    $0 \1 \2 \3#g" \
 	    || echo "        ERROR: No clusters or services found"
-
-	echo
-	;;
-    *)
-	echo "Error: $0 requires 2 or 3 options. $USAGE"
 	exit 1
 	;;
 esac
