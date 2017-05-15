@@ -11,7 +11,7 @@ postgres_hello_world: "custom postgres task variable!"
 # ECR role specific
 ecr_create: true
 ecr_repository_name: "{{ service_name }}"
-ecr_additional_aws_account_list: []
+ecr_additional_aws_account_list: ['']
 
 # ECS role specific
 ecs_service_desired_count: 0
@@ -33,6 +33,3 @@ ecs_taskdefinition_containers:
       - hostPort: 5432
         containerPort: 5432
         protocol: tcp
-
-ecs_taskdefinition_profile: "{{ aws_profile }}"
-ecs_taskdefinition_region: "{{ aws_region }}"

@@ -63,7 +63,3 @@ ecs_taskdefinition_containers:
 ecs_deployment_configuration:
   minimum_healthy_percent: 0
   maximum_percent: 200
-
-ecs_taskdefinition_state: present
-ecs_taskdefinition_profile: "{{ aws_profile }}"
-ecs_taskdefinition_region: "{{ aws_region }}"
