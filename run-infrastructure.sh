@@ -7,7 +7,6 @@
 #     ./run-infrastructure.sh CLUSTER ENV
 #     ./run-infrastructure.sh
 
-
 set -eu -o pipefail
 
 source ANSIBLE_DOCKER_ENV
@@ -32,7 +31,8 @@ OPTIONS
 
 EOF
 
-	find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' | sort \
+    # We'll ignore vault files; we won't be able to run them anyway.
+	find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' ! -name '*.vault.yml' | sort \
 	    | egrep '^./([^/]+/infrastructure/.*.yml)$' \
 	    | sed -Ee "/infrastructure/s#^./([^/]*)/infrastructure/(.*).yml#    $0 \1 \2#" \
 	    || echo "        ERROR: No clusters or services found"

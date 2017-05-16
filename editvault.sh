@@ -14,7 +14,6 @@ source ANSIBLE_DOCKER_ENV
 
 USAGE=$(sed -E -e '/^$/q' -e 's/^#($|!.*| (.*))$/\2/' "$0")
 
-
 case $# in
     3)
 	CLUSTER_NAME_PARAM="${1}"
@@ -50,8 +49,11 @@ OPTIONS
 
 EOF
 
-	find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' | sort \
+    # We'll list environments without a vault file and vault files without an environment file.
+	find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' \
 	    | egrep '^./([^/]+/services/[^/]+/.*.yml|[^/]+/infrastructure/.*.yml)$' \
+	    | sed -Ee "s#^(.*)[.]vault[.]yml\$#\1.yml#" \
+	    | sort -u \
 	    | sed -Ee "/infrastructure/s#^./([^/]*)/infrastructure/(.*).yml#    $0 \1 \2#" \
 	    | sed -Ee "/services/s#^./([^/]*)/services/([^/]*)/(.*).yml\$#    $0 \1 \2 \3#g" \
 	    || echo "        ERROR: No clusters or services found"
