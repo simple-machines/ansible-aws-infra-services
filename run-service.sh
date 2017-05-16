@@ -32,7 +32,8 @@ OPTIONS
 
 EOF
 
-	find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' | sort \
+    # We'll ignore vault files; we won't be able to run them anyway.
+	find . -maxdepth 4 -type f -name '*.yml' ! -name 'common.yml' ! -name '*.vault.yml' | sort \
 	    | egrep '^./([^/]+/services/[^/]+/.*.yml)$' \
 	    | sed -Ee "/services/s#^./([^/]*)/services/([^/]*)/(.*).yml\$#    $0 \1 \2 \3#g" \
 	    || echo "        ERROR: No clusters or services found"
