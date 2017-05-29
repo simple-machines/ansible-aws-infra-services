@@ -1,0 +1,22 @@
+---
+
+### This is used to create efs
+# An efs needs subnets and a default security group for the vpc
+
+efs_create: false
+efs_name: "myefs"
+efs_data_dir: "data"
+efs_security_group: []
+
+_efs_mount_command: ""
+
+_efs_additional_bootcmd: |
+  - sudo yum install -y nfs-utils
+  - sudo mkdir "{{ efs_data_dir }}"
+  - echo before efs
+  - echo "{{ _efs_mount_command }}"
+  - " {{ _efs_mount_command }} "
+  - echo after efs
+
+_efs_no_bootcmd: |
+  - echo no efs loaded

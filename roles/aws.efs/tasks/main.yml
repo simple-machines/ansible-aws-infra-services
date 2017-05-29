@@ -1,0 +1,31 @@
+---
+
+- name: Populate efs targets
+  set_fact:
+    _efs_targets: "{{ _efs_targets|default([]) + [ {'subnet_id': item, 'security_groups':  efs_security_group } ] }}"
+  with_items: "{{ asg_subnets_env }}"
+
+- debug: var=_efs_targets
+
+
+# EFS provisioning
+- name: Create EFS
+  efs:
+    state: present
+    name: "{{ efs_name }}"
+    profile: "{{ aws_profile }}"
+    tags:
+      Name: "{{ efs_name }}"
+      Purpose: file-storage
+    targets: "{{ _efs_targets }} "
+  register: efs_instance
+  when: efs_create
+
+- name: Populate mount command
+  set_fact:
+    _efs_mount_command: "sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone){{ efs_instance.efs.mount_point }} {{ efs_data_dir }}"
+  when: efs_create
+
+- name: Populate additional command
+  set_fact:
+    _efs_additional_bootcmd: "{{ efs_create | ternary(_efs_additional_bootcmd, _efs_no_bootcmd) }}"

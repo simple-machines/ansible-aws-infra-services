@@ -167,6 +167,24 @@ asg_launch_config_key_name: ""
 asg_launch_config_instance_profile_name: ""
 ```
 
+### EFS
+
+Here you define characteristics of your Elastic File Storage so that instances can boot up with the right setup one would expect.
+The EFS will only create if efs_create is true.
+
+The following variables are mandatory:
+
+| variable name                   | importance | default          | description                                                                                      |
+|---------------------------------|------------|------------------|--------------------------------------------------------------------------------------------------|
+| efs_create                      | **mandatory** |  false        | If the EFS cluste will be created. |
+| efs_name                        | **mandatory** | "myefs"       | The name of the EFS cluster. |
+| efs_data_dir                    | **mandatory** | "data"        | The directory the efs will be mounted on. |
+| efs_security_group              | **mandatory** | []            | The default security group of the vpn. |
+
+
+**Note** By default the port to nfs is blocked, so you will either need to add the port exception to your default security group or will need to add your default security group of your vpn to your asg_additional_security_groups_env variable
+ 
+**Note** The name field will not populate. This bug has been resolved in 2.4.0 of ansible
 
 # Service
 
