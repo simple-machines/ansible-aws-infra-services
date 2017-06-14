@@ -51,7 +51,7 @@ function dlogtp {
   dlogp $1 -f;
 }
 
-function dex { x="$(docker ps -lq -f "status=running")"; if [ -z "$x" ]; then echo "Container not running."; else docker exec -it $x "$@"; fi ;}
+function dex { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else docker exec -it $x "$@"; fi ;}
 function dattach { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else docker attach --no-stdin --sig-proxy=false $x "$@"; fi ;}
 alias di='docker images'
 alias drm='docker rm'
