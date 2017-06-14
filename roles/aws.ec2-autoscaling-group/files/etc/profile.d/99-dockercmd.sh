@@ -3,6 +3,7 @@ alias watch='watch '
 alias dps='docker ps'
 
 function dl { docker ps -lq; }
+function dlr { docker ps -lq -f "status=running"; }
 function dlog { x="$(dl)"; if [ -z "$x" ]; then echo "No containers running."; else docker logs "$@" $x; fi ;}
 alias dlogf='dlog -f'
 alias dlogt='dlog -t'
@@ -51,9 +52,9 @@ function dlogtp {
   dlogp $1 -f;
 }
 
-function dex { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else docker exec -it $x "$@"; fi ;}
+function dex { x="$(dlr)"; if [ -z "$x" ]; then echo "Container not running."; else docker exec -it $x "$@"; fi ;}
 function dattach { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else docker attach --no-stdin --sig-proxy=false $x "$@"; fi ;}
 alias di='docker images'
 alias drm='docker rm'
 alias drmi='docker rmi'
-function dstop { x="$(dl)"; if [ -z "$x" ]; then echo "Container not running."; else time docker stop "$@" $x; fi ;}
+function dstop { x="$(dlr)"; if [ -z "$x" ]; then echo "Container not running."; else time docker stop "$@" $x; fi ;}
