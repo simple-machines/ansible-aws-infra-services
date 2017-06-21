@@ -4,17 +4,17 @@
 # Launch config related
 # http://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_container_instance.html
 asg_launch_config_amis_per_region:
-  us-east-1:	"ami-0e297018"
-  us-east-2:	"ami-43d0f626"
-  us-west-1:	"ami-fcd7f59c"
-  us-west-2:	"ami-596d6520"
-  eu-west-1:	"ami-5ae4f83c"
-  eu-west-2:	"ami-ada6b1c9"
-  eu-central-1:	"ami-25a4004a"
-  ap-northeast-1:	"ami-3a000e5d"
-  ap-southeast-1:	"ami-2428ab47"
-  ap-southeast-2:	"ami-ac5849cf"
-  ca-central-1:	"ami-8cfb44e8"
+  us-east-2:	"ami-9f9cbafa"
+  us-east-1:	"ami-83af8395"
+  us-west-2:	"ami-11120768"
+  us-west-1:	"ami-c1c6eba1"
+  eu-west-2:	"ami-767e6812"
+  eu-west-1:	"ami-5f140c39"
+  eu-central-1:	"ami-e656f189"
+  ap-northeast-1:	"ami-fd10059a"
+  ap-southeast-2:	"ami-6b6c7c08"
+  ap-southeast-1:	"ami-1926ab7a"
+  ca-central-1:	"ami-ead8678e"
 
 asg_tag_name:
   Name: "{{ asg_ecs_cluster_name }}"
