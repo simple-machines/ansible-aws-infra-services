@@ -19,20 +19,20 @@ echo "<your vault password>" >> .vaultpassword
 ## Adding password file and edit the secret variables
 ### Infrastructure
 To change the vault for Infrastructure it follows
-./editvault.sh infrastructure [cluster name] [environment]
+./editvault.sh [cluster name] [environment]
 ```
 # the vault password is never committed into the repository
 echo "<your vault password>" >> .vaultpassword
-./editvault.sh infrastructure example-cluster dev
+./editvault.sh example-cluster dev
 ```
 
 ### Services
 To change the vault for Services it follows
-./editvault.sh services [cluster name] [service name] [environment]
+./editvault.sh [cluster name] [service name] [environment]
 ```
 # the vault password is never committed into the repository
 echo "<your vault password>" >> .vaultpassword
-./editvault.sh services example-cluster postgres-example dev
+./editvault.sh example-cluster postgres-example dev
 ```
 
 # Infrastructure
