@@ -7,6 +7,8 @@
     - ["{{ cluster_name }}/infrastructure/{{ env }}.vault.yml", "{{ cluster_name }}/infrastructure/{{ env }}.yml"]  # load vault if exists
     - "{{ cluster_name }}/infrastructure/{{ env }}.yml"               # include environment specific variables
   roles:
-    - roles/aws.ec2-security-groups                         # create security groups
-    - roles/aws.ec2-autoscaling-group                       # create the auto scaling group
-    - roles/aws.ecs-cluster                                 # create ecs cluster
+    - role: custom-infrastructure
+      when: custom_task_files | default([])
+    - role: roles/aws.ec2-security-groups                         # create security groups
+    - role: roles/aws.ec2-autoscaling-group                       # create the auto scaling group
+    - role: roles/aws.ecs-cluster                                 # create ecs cluster

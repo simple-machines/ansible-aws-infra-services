@@ -8,6 +8,7 @@
       - /usr/bin/easy_install pip
       - /usr/local/bin/pip install --upgrade boto3 boto awscli requests psutil {{ asg_additional_python_pip_packages }}
       {{ asg_additional_user_data_bootcmd }}
+      {{ _efs_additional_bootcmd }}
 
 - name: Set write_files
   set_fact:
